@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(ls:*)",
+      "Bash(powershell -Command \"New-Item -Path ''app/\\(dashboard\\)/locations/[id]/edit'' -ItemType Directory -Force | Out-Null; Copy-Item -Path ''app/\\(dashboard\\)/locations/[id]/editar/*'' -Destination ''app/\\(dashboard\\)/locations/[id]/edit/'' -Force\")",
+      "Bash(powershell -Command \"Remove-Item -Path ''app/\\(dashboard\\)/locations/nueva'' -Recurse -Force; Remove-Item -Path ''app/\\(dashboard\\)/locations/[id]/editar'' -Recurse -Force; Remove-Item -Path ''app/\\(dashboard\\)/sedes'' -Recurse -Force; Remove-Item -Path ''app/\\(dashboard\\)/planillas'' -Recurse -Force\")",
+      "Bash(powershell -Command \"Remove-Item -Path ''app/\\(dashboard\\)/locations/[id]/editar'' -Recurse -Force\")",
+      "Bash(find:*)"
+    ]
+  }
+}

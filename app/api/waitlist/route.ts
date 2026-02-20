@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import * as React from 'react';
 import { supabaseAdmin } from '@/lib/supabase';
 import { resend } from '@/lib/resend';
@@ -46,43 +46,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Send confirmation email to lead (non-blocking)
-    const emailPromises = [];
-
-    const leadEmailPromise = resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
-      to: validatedData.email,
-      subject: '¡Gracias por tu interés en QORE!',
-      react: React.createElement(LeadConfirmationEmail, {
-        companyName: validatedData.company_name,
-      }),
-    }).catch((error) => {
-      console.error('Failed to send lead confirmation email:', error);
-      // Don't throw - email failure shouldn't fail the request
+    // 3. Send emails non-blocking using after()
+    after(async () => {
+      await Promise.allSettled([
+        resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL!,
+          to: validatedData.email,
+          subject: '¡Gracias por tu interés en QORE!',
+          react: React.createElement(LeadConfirmationEmail, {
+            companyName: validatedData.company_name,
+          }),
+        }).catch((error) => {
+          console.error('Failed to send lead confirmation email:', error);
+        }),
+        resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL!,
+          to: process.env.RESEND_TEAM_EMAIL!,
+          subject: `Nuevo Lead: ${validatedData.company_name} Tamaño (${validatedData.company_size})`,
+          react: React.createElement(TeamNotificationEmail, {
+            ...validatedData,
+            submittedAt: lead.created_at,
+          }),
+        }).catch((error) => {
+          console.error('Failed to send team notification email:', error);
+        }),
+      ]);
     });
 
-    emailPromises.push(leadEmailPromise);
-
-    // 4. Send notification email to team
-    const teamEmailPromise = resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
-      to: process.env.RESEND_TEAM_EMAIL!,
-      subject: `Nuevo Lead: ${validatedData.company_name} Tamaño (${validatedData.company_size})`,
-      react: React.createElement(TeamNotificationEmail, {
-        ...validatedData,
-        submittedAt: lead.created_at,
-      }),
-    }).catch((error) => {
-      console.error('Failed to send team notification email:', error);
-      // Don't throw - email failure shouldn't fail the request
-    });
-
-    emailPromises.push(teamEmailPromise);
-
-    // Wait for emails (but don't block response if they fail)
-    await Promise.allSettled(emailPromises);
-
-    // 5. Return success response
+    // 4. Return success response immediately
     return NextResponse.json(
       {
         success: true,
