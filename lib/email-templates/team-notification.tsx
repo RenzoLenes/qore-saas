@@ -98,7 +98,7 @@ const header = {
 };
 
 const headerTitle = {
-  color: '#00d4ff',
+  color: '#2dd4ff',
   fontSize: '24px',
   fontWeight: 'bold',
   margin: '0',
@@ -114,7 +114,7 @@ const badge = {
 };
 
 const badgeText = {
-  backgroundColor: '#00d4ff',
+  backgroundColor: '#2dd4ff',
   color: '#ffffff',
   padding: '10px 15px',
   borderRadius: '6px',
@@ -155,7 +155,7 @@ const value = {
 };
 
 const link = {
-  color: '#00d4ff',
+  color: '#2dd4ff',
   textDecoration: 'underline',
 };
 

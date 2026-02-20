@@ -3,7 +3,6 @@
 import { useActionState, useState } from 'react';
 import { completeOnboarding } from '@/lib/actions/tenant';
 import {
-  QrCode,
   MapPin,
   ScanLine,
   ShieldCheck,
@@ -15,6 +14,7 @@ import {
   LogIn,
   LogOut,
 } from 'lucide-react';
+import Image from 'next/image';
 import type { CheckInMode } from '@/lib/types';
 import type { LucideIcon } from 'lucide-react';
 
@@ -201,9 +201,7 @@ export default function OnboardingWizard() {
         {/* ==================== STEP 0: Welcome ==================== */}
         {step === 0 && (
           <div className="flex flex-col items-center text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/15 text-brand mb-6">
-              <QrCode className="h-8 w-8" />
-            </div>
+            <Image src="/logo.png" alt="QORE" width={180} height={48} className="h-12 w-auto mb-6" />
 
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">
               Configuremos tu empresa

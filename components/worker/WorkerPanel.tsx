@@ -256,7 +256,7 @@ export default function WorkerPanel({ data }: WorkerPanelProps) {
           <LocationMap
             markers={[
               { id: 'worker', lat: workerCoords.lat, lng: workerCoords.lng, name: 'Tu posición', color: '#10b981' },
-              ...(location ? [{ id: 'location', lat: location.lat, lng: location.lng, name: location.name, gps_radius: location.gps_radius, color: '#00d4ff' }] : []),
+              ...(location ? [{ id: 'location', lat: location.lat, lng: location.lng, name: location.name, gps_radius: location.gps_radius, color: '#2dd4ff' }] : []),
             ]}
             center={{ lat: workerCoords.lat, lng: workerCoords.lng }}
             zoom={16}

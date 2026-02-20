@@ -2,7 +2,8 @@
 
 import { useActionState, useState } from 'react';
 import Link from 'next/link';
-import { QrCode, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { login } from './actions';
@@ -15,9 +16,7 @@ export default function LoginPage() {
     <div className="w-full max-w-sm">
       {/* Logo */}
       <div className="flex flex-col items-center mb-8">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/15 text-brand mb-4">
-          <QrCode className="h-6 w-6" />
-        </div>
+        <Image src="/logo.png" alt="QORE" width={160} height={44} className="h-11 w-auto mb-4" />
         <h1 className="text-2xl font-extrabold tracking-tight">Bienvenido a QORE</h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">Ingresa a tu cuenta para continuar</p>
       </div>

@@ -101,7 +101,7 @@ const container = {
 };
 
 const header = {
-  backgroundColor: '#00d4ff',
+  backgroundColor: '#2dd4ff',
   padding: '20px',
   textAlign: 'center' as const,
 };
@@ -137,7 +137,7 @@ const box = {
   padding: '20px',
   borderRadius: '8px',
   margin: '20px 0',
-  borderLeft: '4px solid #00d4ff',
+  borderLeft: '4px solid #2dd4ff',
 };
 
 const boxTitle = {
@@ -163,7 +163,7 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: '#00d4ff',
+  backgroundColor: '#2dd4ff',
   color: '#0f172a',
   fontSize: '16px',
   fontWeight: 'bold',

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QORE — Control de Asistencia con QR y GPS para Empresas",
+  title: "QORE — Control de Asistencia Inteligente para Empresas",
   description:
     "Plataforma B2B de control de asistencia con validación QR y geolocalización GPS en tiempo real. Elimina el fraude, automatiza reportes y simplifica la nómina.",
   keywords: [

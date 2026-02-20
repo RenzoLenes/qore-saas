@@ -42,7 +42,7 @@ No test framework is configured.
 
 - Use `@/` path alias for imports
 - Server Components by default; add `'use client'` only when needed
-- Brand primary color: `#00d4ff`
+- Brand primary color: `#2dd4ff`
 - Type inference from Zod: `z.infer<typeof schema>`
 - Email failures are caught and logged but never fail the API request
 - Database error `23505` = duplicate email (return 409)

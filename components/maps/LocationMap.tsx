@@ -7,7 +7,7 @@ import type { FillLayerSpecification, LineLayerSpecification } from 'maplibre-gl
 import { createCircleGeoJSON } from '@/lib/geo';
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
-const BRAND_COLOR = '#00d4ff';
+const BRAND_COLOR = '#2dd4ff';
 const DEFAULT_CENTER = { lat: -12.0464, lng: -77.0428 }; // Lima
 const DEFAULT_ZOOM = 13;
 

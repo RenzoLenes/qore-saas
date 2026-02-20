@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  QrCode,
   MapPin,
   FileSpreadsheet,
   Users,
@@ -15,6 +14,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import Image from 'next/image';
 import { logout } from '@/app/(auth)/logout/actions';
 
 const NAV_ITEMS = [
@@ -38,11 +38,12 @@ export default function Sidebar() {
   const sidebarContent = (
     <>
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 h-16 border-b border-border flex-shrink-0">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand flex-shrink-0">
-          <QrCode className="h-4.5 w-4.5" />
-        </div>
-        {!collapsed && <span className="text-lg font-bold tracking-tight">QORE</span>}
+      <div className="flex items-center justify-center px-4 h-16 border-b border-border flex-shrink-0">
+        {collapsed ? (
+          <Image src="/logo-icon.png" alt="QORE" width={30} height={30}/>
+        ) : (
+          <Image src="/logo.png" alt="QORE" width={240} height={64} className="h-10 w-auto" />
+        )}
       </div>
 
       {/* Nav */}

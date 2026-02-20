@@ -41,8 +41,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
-  50% { box-shadow: 0 0 20px 4px rgba(0, 212, 255, 0.15); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 212, 255, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(45, 212, 255, 0.15); }
 }
 
 @keyframes counter {
@@ -62,27 +62,27 @@
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
-  --brand: #00d4ff;
-  --brand-dark: #00a3cc;
-  --brand-glow: rgba(0, 212, 255, 0.15);
-  --brand-subtle: rgba(0, 212, 255, 0.08);
+  --brand: #2dd4ff;
+  --brand-dark: #1ab8e0;
+  --brand-glow: rgba(45, 212, 255, 0.15);
+  --brand-subtle: rgba(45, 212, 255, 0.08);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #030712;
+    --background: #000d2a;
     --foreground: #f1f5f9;
-    --surface: #0a1628;
-    --surface-raised: #111c32;
-    --border: #1e293b;
-    --border-subtle: #0f172a;
+    --surface: #001338;
+    --surface-raised: #0a1e42;
+    --border: #152647;
+    --border-subtle: #0a1633;
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    --brand: #00d4ff;
-    --brand-dark: #00bde0;
-    --brand-glow: rgba(0, 212, 255, 0.12);
-    --brand-subtle: rgba(0, 212, 255, 0.06);
+    --brand: #2dd4ff;
+    --brand-dark: #22c8f0;
+    --brand-glow: rgba(45, 212, 255, 0.12);
+    --brand-subtle: rgba(45, 212, 255, 0.06);
   }
 }
 
@@ -177,7 +177,7 @@ body {
 }
 
 .text-gradient-brand {
-  background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #00d4ff 100%);
+  background: linear-gradient(135deg, #2dd4ff 0%, #0066ff 50%, #2dd4ff 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -190,7 +190,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(0, 212, 255, 0.06) 50%,
+    rgba(45, 212, 255, 0.06) 50%,
     transparent 100%
   );
   background-size: 200% 100%;
@@ -219,6 +219,6 @@ body {
 /* ── Selection ─────────────────────────────────────────── */
 
 ::selection {
-  background: rgba(0, 212, 255, 0.25);
+  background: rgba(45, 212, 255, 0.25);
   color: var(--text-primary);
 }

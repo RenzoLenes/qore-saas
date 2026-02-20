@@ -1,4 +1,4 @@
-import { QrCode } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -13,11 +13,8 @@ export default function PrivacidadPage() {
       {/* Nav */}
       <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand">
-              <QrCode className="h-4.5 w-4.5" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">QORE</span>
+          <Link href="/">
+            <Image src="/logo.png" alt="QORE" width={120} height={32} className="h-8 w-auto" />
           </Link>
           <Link href="/" className="text-sm text-[var(--text-secondary)] hover:text-foreground transition-colors">
             Volver al inicio

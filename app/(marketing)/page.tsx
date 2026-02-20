@@ -27,6 +27,7 @@ import {
   Battery,
 } from 'lucide-react';
 import WaitlistForm from '@/components/WaitlistForm';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
@@ -35,12 +36,7 @@ export default function Home() {
       {/* ─── Navigation ─────────────────────────────────── */}
       <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand">
-              <QrCode className="h-4.5 w-4.5" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">QORE</span>
-          </div>
+          <Image src="/logo.png" alt="QORE" width={120} height={32} className="h-8 w-auto" />
 
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm text-[var(--text-secondary)] hover:text-foreground transition-colors">Producto</a>
@@ -201,27 +197,38 @@ export default function Home() {
 
                   {/* Scanner UI */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-                    <div className="relative w-48 h-48 border-2 border-brand/50 rounded-xl bg-white/5 backdrop-blur-sm overflow-hidden shadow-[0_0_20px_rgba(0,212,255,0.5)]">
-                      <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-brand rounded-tl-lg" />
-                      <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-brand rounded-tr-lg" />
-                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-brand rounded-bl-lg" />
-                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-brand rounded-br-lg" />
+                    <div className="relative w-48 h-48 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(45,212,255,0.3),0_0_60px_rgba(45,212,255,0.1)]">
+                      {/* Outer glow border */}
+                      <div className="absolute inset-0 rounded-2xl border border-brand/40" />
+                      <div className="absolute inset-[3px] rounded-xl border border-brand/20 bg-white/5 backdrop-blur-sm" />
 
-                      <div className="w-full h-full p-6 flex items-center justify-center">
-                        <QrCode className="w-full h-full text-brand opacity-90" strokeWidth={1.5} />
+                      {/* Corner brackets */}
+                      <div className="absolute top-0 left-0 w-6 h-6 border-t-[3px] border-l-[3px] border-brand rounded-tl-xl" />
+                      <div className="absolute top-0 right-0 w-6 h-6 border-t-[3px] border-r-[3px] border-brand rounded-tr-xl" />
+                      <div className="absolute bottom-0 left-0 w-6 h-6 border-b-[3px] border-l-[3px] border-brand rounded-bl-xl" />
+                      <div className="absolute bottom-0 right-0 w-6 h-6 border-b-[3px] border-r-[3px] border-brand rounded-br-xl" />
+
+                      {/* QR dot pattern */}
+                      <div className="absolute inset-0 p-5 flex items-center justify-center">
+                        <div className="w-full h-full grid grid-cols-7 grid-rows-7 gap-[3px] opacity-80">
+                          {[1,1,1,0,1,1,1, 1,0,1,0,1,0,1, 1,1,1,0,1,1,1, 0,0,0,0,0,0,0, 1,1,0,1,0,1,1, 0,1,0,1,1,0,1, 1,0,1,0,1,1,0].map((filled, i) => (
+                            <div key={i} className={`rounded-[2px] ${filled ? 'bg-brand' : 'bg-transparent'}`} />
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="absolute left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand to-transparent shadow-[0_0_15px_rgba(0,212,255,1)] animate-scan" />
+                      {/* Scan line — wider glow */}
+                      <div className="absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-brand to-transparent shadow-[0_0_20px_8px_rgba(45,212,255,0.6)] animate-scan" />
                     </div>
 
-                    <div className="mt-6 flex items-center gap-2 bg-emerald-500/90 text-white px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
+                    <div className="mt-6 flex items-center gap-2 bg-emerald-500/90 text-white px-3.5 py-2 rounded-full shadow-lg shadow-emerald-500/20 backdrop-blur-sm">
                       <CheckCircle className="h-4 w-4" />
                       <span className="text-xs font-bold tracking-wide">UBICACIÓN VALIDADA</span>
                     </div>
                   </div>
 
-                  {/* Bottom Sheet */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-white/85 dark:bg-surface-raised/90 backdrop-blur-xl rounded-t-2xl p-5 z-30">
+                  {/* Bottom Sheet — Success state */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-white/90 dark:bg-surface-raised/90 backdrop-blur-xl rounded-t-2xl p-5 z-30">
                     <div className="w-10 h-1 bg-slate-300/50 rounded-full mx-auto mb-4" />
                     <div className="flex items-center gap-4">
                       <div className="relative">
@@ -230,18 +237,21 @@ export default function Home() {
                           className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
                           src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
                         />
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-800 rounded-full" />
+                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-slate-800 rounded-full flex items-center justify-center">
+                          <Check className="h-2.5 w-2.5 text-white" />
+                        </div>
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm font-bold text-slate-800 dark:text-white">Carlos Mendoza</h4>
                         <p className="text-xs text-slate-500 dark:text-slate-300">Desarrollador Senior</p>
                       </div>
-                      <div className="bg-brand/10 p-2 rounded-full text-brand">
-                        <div className="h-5 w-5 border-2 border-brand border-t-transparent rounded-full animate-spin" />
+                      <div className="bg-emerald-500/10 p-2 rounded-full">
+                        <CheckCircle className="h-5 w-5 text-emerald-500" />
                       </div>
                     </div>
-                    <div className="mt-3 border-t border-slate-200/50 dark:border-slate-700/50 pt-3">
-                      <p className="text-center text-xs font-medium text-brand">Registrando entrada... 08:59 AM</p>
+                    <div className="mt-3 border-t border-slate-200/50 dark:border-slate-700/50 pt-3 flex items-center justify-between">
+                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Entrada registrada</span>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-200">08:59 AM</span>
                     </div>
                   </div>
                 </div>
@@ -534,7 +544,7 @@ export default function Home() {
 
                     {/* Scanner */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-                      <div className="relative w-32 h-32 border-2 border-brand/50 rounded-lg bg-white/5 overflow-hidden shadow-[0_0_15px_rgba(0,212,255,0.4)]">
+                      <div className="relative w-32 h-32 border-2 border-brand/50 rounded-lg bg-white/5 overflow-hidden shadow-[0_0_15px_rgba(45,212,255,0.4)]">
                         <div className="absolute top-0 left-0 w-3 h-3 border-t-[3px] border-l-[3px] border-brand rounded-tl" />
                         <div className="absolute top-0 right-0 w-3 h-3 border-t-[3px] border-r-[3px] border-brand rounded-tr" />
                         <div className="absolute bottom-0 left-0 w-3 h-3 border-b-[3px] border-l-[3px] border-brand rounded-bl" />
@@ -542,7 +552,7 @@ export default function Home() {
                         <div className="w-full h-full p-4 flex items-center justify-center">
                           <QrCode className="w-full h-full text-brand opacity-80" strokeWidth={1.5} />
                         </div>
-                        <div className="absolute left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-brand to-transparent shadow-[0_0_10px_rgba(0,212,255,1)] animate-scan" />
+                        <div className="absolute left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-brand to-transparent shadow-[0_0_10px_rgba(45,212,255,1)] animate-scan" />
                       </div>
                       <div className="mt-4 flex items-center gap-1.5 bg-emerald-500/90 text-white px-2.5 py-1 rounded-full shadow-lg">
                         <CheckCircle className="h-3 w-3" />
@@ -960,11 +970,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
             {/* Brand */}
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand">
-                  <QrCode className="h-4.5 w-4.5" />
-                </div>
-                <span className="text-lg font-bold tracking-tight">QORE</span>
+              <div className="mb-4">
+                <Image src="/logo.png" alt="QORE" width={120} height={32} className="h-8 w-auto" />
               </div>
               <p className="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
                 La plataforma de control de asistencia con QR y GPS para empresas modernas.
