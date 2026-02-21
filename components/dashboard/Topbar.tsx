@@ -1,4 +1,4 @@
-import { Bell, Search } from 'lucide-react';
+import { Bell, Building2, Search } from 'lucide-react';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -7,6 +7,7 @@ interface TopbarProps {
     name: string;
     initials: string;
     role: string;
+    tenantName: string;
   } | null;
 }
 
@@ -16,8 +17,14 @@ export default function Topbar({ user }: TopbarProps) {
       {/* Left spacer for mobile menu button */}
       <div className="lg:hidden w-10" />
 
-      {/* Search */}
-      <div className="hidden sm:flex items-center gap-2 flex-1 max-w-md">
+      {/* Tenant name + Search */}
+      <div className="hidden sm:flex items-center gap-4 flex-1 max-w-xl">
+        {user?.tenantName && (
+          <div className="flex items-center gap-2 text-sm text-[var(--text-muted)] flex-shrink-0">
+            <Building2 className="h-4 w-4" />
+            <span className="font-medium truncate max-w-[200px]">{user.tenantName}</span>
+          </div>
+        )}
         <Input
           icon={Search}
           placeholder="Buscar..."

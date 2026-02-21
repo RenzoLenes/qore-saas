@@ -105,21 +105,43 @@ export interface QRCode {
 export interface DashboardMetrics {
   total_workers: number;
   active_locations: number;
+  total_locations: number;
   today_attendance: number;
   attendance_rate: number;
+  absent_today: number;
+  on_leave: number;
+  punctuality_rate: number;
 }
 
 export interface WeeklyAttendance {
   day: string;
   count: number;
+  fullDate: string;
 }
 
 export interface RecentActivity {
   id: string;
   worker_name: string;
+  worker_position: string;
   location_name: string;
+  location_schedule: string;
   type: 'check_in' | 'check_out';
   method: string;
   timestamp: string;
   within_radius: boolean | null;
+}
+
+export interface LiveLocation {
+  id: string;
+  name: string;
+  present: number;
+  total: number;
+  percentage: number;
+}
+
+export interface AbsentWorker {
+  id: string;
+  name: string;
+  position: string;
+  location_name: string;
 }

@@ -18,6 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           .toUpperCase()
           .slice(0, 2),
         role: profile.role === 'owner' ? 'Propietario' : profile.role === 'admin' ? 'Admin' : 'Viewer',
+        tenantName: profile.tenant?.name ?? '',
       }
     : null;
 

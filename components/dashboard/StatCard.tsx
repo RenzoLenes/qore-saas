@@ -4,7 +4,7 @@ interface StatCardProps {
   label: string;
   value: string | number;
   icon: LucideIcon;
-  trend?: { value: string; positive: boolean };
+  trend?: { value: string; positive: boolean; neutral?: boolean };
   color?: string;
 }
 
@@ -19,8 +19,12 @@ export default function StatCard({ label, value, icon: Icon, trend, color = 'tex
         <p className="text-sm text-[var(--text-muted)] mb-0.5">{label}</p>
         <p className="text-2xl font-extrabold tracking-tight">{value}</p>
         {trend && (
-          <p className={`text-xs font-medium mt-1 ${trend.positive ? 'text-emerald-500' : 'text-red-500'}`}>
-            {trend.positive ? '↑' : '↓'} {trend.value}
+          <p className={`text-xs font-medium mt-1 ${
+            trend.neutral
+              ? 'text-[var(--text-muted)]'
+              : trend.positive ? 'text-emerald-500' : 'text-red-500'
+          }`}>
+            {trend.neutral ? '' : trend.positive ? '↑ ' : '↓ '}{trend.value}
           </p>
         )}
       </div>
