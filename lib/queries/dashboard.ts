@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getCurrentProfile } from '@/lib/auth';
+import { getTenantTimezone, getTenantTodayStart, getTenantCurrentWeek, getTenantDayRange, isOnTime } from '@/lib/timezone';
 import type { DashboardMetrics, WeeklyAttendance, RecentActivity, LiveLocation, AbsentWorker } from '@/lib/types';
 
 export const getDashboardMetrics = cache(async (): Promise<DashboardMetrics> => {
@@ -18,8 +19,8 @@ export const getDashboardMetrics = cache(async (): Promise<DashboardMetrics> => 
   }
 
   const tenantId = profile.tenant_id;
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const tz = await getTenantTimezone();
+  const todayIso = getTenantTodayStart(tz);
 
   const [workersRes, onLeaveRes, activeLocationsRes, totalLocationsRes, todayCheckInsRes] = await Promise.all([
     supabase
@@ -46,7 +47,7 @@ export const getDashboardMetrics = cache(async (): Promise<DashboardMetrics> => 
       .select('worker_id, timestamp, location:locations(schedule)')
       .eq('tenant_id', tenantId)
       .eq('type', 'check_in')
-      .gte('timestamp', todayStart.toISOString()),
+      .gte('timestamp', todayIso),
   ]);
 
   const totalWorkers = workersRes.count ?? 0;
@@ -62,14 +63,7 @@ export const getDashboardMetrics = cache(async (): Promise<DashboardMetrics> => 
   for (const record of todayCheckIns) {
     const location = record.location as unknown as { schedule: string } | null;
     const schedule = location?.schedule ?? '08:00 - 18:00';
-    const startTime = schedule.split('-')[0]?.trim();
-    if (!startTime) { onTimeCount++; continue; }
-    const [hours, minutes] = startTime.split(':').map(Number);
-    if (isNaN(hours) || isNaN(minutes)) { onTimeCount++; continue; }
-    const checkIn = new Date(record.timestamp);
-    const scheduledStart = new Date(checkIn);
-    scheduledStart.setHours(hours, minutes, 0, 0);
-    if (checkIn <= scheduledStart) onTimeCount++;
+    if (isOnTime(record.timestamp, schedule, tz)) onTimeCount++;
   }
 
   return {
@@ -92,42 +86,33 @@ export const getWeeklyAttendance = cache(async (): Promise<WeeklyAttendance[]> =
 
   if (!profile?.tenant_id) return [];
 
+  const tz = await getTenantTimezone();
   const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
   const results: WeeklyAttendance[] = [];
 
-  // Calculate Monday of the current week
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon...
-  const monday = new Date(today);
-  monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+  const week = getTenantCurrentWeek(tz);
+  const todayStart = getTenantTodayStart(tz);
 
-  // Iterate Mon (0) to Sun (6)
   for (let i = 0; i < 7; i++) {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
-    const fullDate = `${dayNames[date.getDay()]} ${date.getDate()} ${monthNames[date.getMonth()]}`;
+    const date = week[i];
+    const { start, end } = getTenantDayRange(date, tz);
+    const fullDate = `${dayNames[date.getUTCDay()]} ${date.getUTCDate()} ${monthNames[date.getUTCMonth()]}`;
 
     // Future days get 0 count without querying
-    if (date > today) {
+    if (start > todayStart) {
       results.push({ day: days[i], count: 0, fullDate });
       continue;
     }
-
-    const dayStart = new Date(date);
-    dayStart.setHours(0, 0, 0, 0);
-    const dayEnd = new Date(date);
-    dayEnd.setHours(23, 59, 59, 999);
 
     const { count } = await supabase
       .from('attendance_records')
       .select('id', { count: 'exact', head: true })
       .eq('tenant_id', profile.tenant_id)
       .eq('type', 'check_in')
-      .gte('timestamp', dayStart.toISOString())
-      .lte('timestamp', dayEnd.toISOString());
+      .gte('timestamp', start)
+      .lte('timestamp', end);
 
     results.push({ day: days[i], count: count ?? 0, fullDate });
   }
@@ -176,8 +161,8 @@ export const getLiveLocations = cache(async (): Promise<LiveLocation[]> => {
 
   if (!profile?.tenant_id) return [];
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const tz = await getTenantTimezone();
+  const todayIso = getTenantTodayStart(tz);
 
   // Fetch active locations with assigned worker count
   const { data: locations } = await supabase
@@ -200,7 +185,7 @@ export const getLiveLocations = cache(async (): Promise<LiveLocation[]> => {
     .from('attendance_records')
     .select('worker_id, location_id, type, timestamp')
     .eq('tenant_id', profile.tenant_id)
-    .gte('timestamp', todayStart.toISOString())
+    .gte('timestamp', todayIso)
     .order('timestamp', { ascending: true });
 
   // Calculate who is currently present per location:
@@ -237,8 +222,8 @@ export const getAbsentWorkers = cache(async (): Promise<AbsentWorker[]> => {
 
   if (!profile?.tenant_id) return [];
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const tz = await getTenantTimezone();
+  const todayIso = getTenantTodayStart(tz);
 
   const [workersRes, attendanceRes] = await Promise.all([
     supabase
@@ -252,7 +237,7 @@ export const getAbsentWorkers = cache(async (): Promise<AbsentWorker[]> => {
       .select('worker_id')
       .eq('tenant_id', profile.tenant_id)
       .eq('type', 'check_in')
-      .gte('timestamp', todayStart.toISOString()),
+      .gte('timestamp', todayIso),
   ]);
 
   const workers = workersRes.data ?? [];

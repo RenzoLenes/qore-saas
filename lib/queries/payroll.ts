@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getCurrentProfile } from '@/lib/auth';
+import { getTenantTimezone, getTenantTodayStart, getTenantMonthRange, getTenantNow, getTenantTodayKey, tenantDateKey } from '@/lib/timezone';
 import type { Worker, AttendanceRecord } from '@/lib/types';
 
 export interface PayrollWorker extends Worker {
@@ -21,21 +22,20 @@ export interface PayrollMetrics {
 /**
  * Returns the start and end ISO strings for a given month (YYYY-MM).
  * Defaults to current month if not provided.
+ * Uses tenant timezone for correct boundaries.
  */
-function getMonthRange(month?: string): { start: string; end: string } {
+function getMonthRange(tz: string, month?: string): { start: string; end: string } {
   let year: number, m: number;
   if (month && /^\d{4}-\d{2}$/.test(month)) {
     const [y, mo] = month.split('-').map(Number);
     year = y;
     m = mo - 1; // JS months are 0-indexed
   } else {
-    const now = new Date();
-    year = now.getFullYear();
-    m = now.getMonth();
+    const now = getTenantNow(tz);
+    year = now.year;
+    m = now.month;
   }
-  const start = new Date(year, m, 1);
-  const end = new Date(year, m + 1, 0, 23, 59, 59, 999);
-  return { start: start.toISOString(), end: end.toISOString() };
+  return getTenantMonthRange(year, m, tz);
 }
 
 /**
@@ -58,7 +58,8 @@ export const getWorkers = cache(async (month?: string): Promise<PayrollWorker[]>
 
   if (!workers || workers.length === 0) return [];
 
-  const { start: monthStart, end: monthEnd } = getMonthRange(month);
+  const tz = await getTenantTimezone();
+  const { start: monthStart, end: monthEnd } = getMonthRange(tz, month);
   const workerIds = workers.map((w) => w.id);
 
   // Single batch query for all attendance records in the month
@@ -82,9 +83,8 @@ export const getWorkers = cache(async (month?: string): Promise<PayrollWorker[]>
   }
 
   // Today's range for today_check_in / hours_today
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
-  const todayIso = todayStart.toISOString();
+  const todayIso = getTenantTodayStart(tz);
+  const todayKey = getTenantTodayKey(tz);
 
   const enriched: PayrollWorker[] = workers.map((worker) => {
     const workerRecords = recordsByWorker.get(worker.id) ?? [];
@@ -97,13 +97,13 @@ export const getWorkers = cache(async (month?: string): Promise<PayrollWorker[]>
     const daysSet = new Set<string>();
 
     for (const ci of checkIns) {
-      const ciDate = new Date(ci.timestamp);
-      const dayStr = ciDate.toDateString();
+      const dayStr = tenantDateKey(ci.timestamp, tz);
       // Find the matching check_out for the same day
       const co = checkOuts.find(
-        (r) => new Date(r.timestamp).toDateString() === dayStr && new Date(r.timestamp) > ciDate,
+        (r) => tenantDateKey(r.timestamp, tz) === dayStr && new Date(r.timestamp) > new Date(ci.timestamp),
       );
-      const endTime = co ? new Date(co.timestamp) : (ciDate.toDateString() === new Date().toDateString() ? new Date() : ciDate);
+      const ciDate = new Date(ci.timestamp);
+      const endTime = co ? new Date(co.timestamp) : (dayStr === todayKey ? new Date() : ciDate);
       const dayHours = (endTime.getTime() - ciDate.getTime()) / 3600000;
       if (dayHours > 0) {
         hoursMonth += dayHours;
@@ -117,7 +117,7 @@ export const getWorkers = cache(async (month?: string): Promise<PayrollWorker[]>
     let hoursToday = 0;
     if (todayCheckIn) {
       const todayCheckOut = checkOuts.find(
-        (r) => new Date(r.timestamp).toDateString() === new Date().toDateString(),
+        (r) => tenantDateKey(r.timestamp, tz) === todayKey,
       );
       const end = todayCheckOut ? new Date(todayCheckOut.timestamp) : new Date();
       hoursToday = (end.getTime() - new Date(todayCheckIn.timestamp).getTime()) / 3600000;
@@ -165,7 +165,8 @@ export const getAttendanceForWorker = cache(async (workerId: string, month?: str
 
   if (!profile?.tenant_id) return [];
 
-  const { start, end } = getMonthRange(month);
+  const tz = await getTenantTimezone();
+  const { start, end } = getMonthRange(tz, month);
 
   const { data } = await supabase
     .from('attendance_records')

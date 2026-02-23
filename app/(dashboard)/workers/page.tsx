@@ -3,9 +3,13 @@ import { Plus, Users } from 'lucide-react';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import WorkerCard from '@/components/workers/WorkerCard';
 import { getWorkers } from '@/lib/queries/payroll';
+import { getTenantTimezone } from '@/lib/timezone';
 
 export default async function WorkersPage() {
-  const workers = await getWorkers();
+  const [workers, timezone] = await Promise.all([
+    getWorkers(),
+    getTenantTimezone(),
+  ]);
   const activeCount = workers.filter((w) => w.status === 'active').length;
   const onLeaveCount = workers.filter((w) => w.status === 'leave').length;
 
@@ -65,7 +69,7 @@ export default async function WorkersPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {workers.map((worker) => (
-            <WorkerCard key={worker.id} worker={worker} />
+            <WorkerCard key={worker.id} worker={worker} timezone={timezone} />
           ))}
         </div>
       )}

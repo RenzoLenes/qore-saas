@@ -4,6 +4,7 @@ import { Clock, CalendarCheck, TrendingUp, MapPin, Mail, Briefcase, LogIn, LogOu
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import Badge from '@/components/ui/Badge';
 import { getWorkerById, getAttendanceForWorker } from '@/lib/queries/payroll';
+import { getTenantTimezone, formatTenantTime, formatTenantDate, tenantDateKey } from '@/lib/timezone';
 
 const statusBadge: Record<string, 'success' | 'warning' | 'error' | 'info'> = {
   active: 'success',
@@ -26,9 +27,10 @@ const GPS_FLAG_LABELS: Record<string, string> = {
 
 export default async function WorkerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [worker, records] = await Promise.all([
+  const [worker, records, tz] = await Promise.all([
     getWorkerById(id),
     getAttendanceForWorker(id),
+    getTenantTimezone(),
   ]);
 
   if (!worker) notFound();
@@ -50,17 +52,16 @@ export default async function WorkerDetailPage({ params }: { params: Promise<{ i
   const checkOuts = records.filter((r) => r.type === 'check_out');
 
   const dailyData = checkIns.map((ci) => {
-    const date = new Date(ci.timestamp);
-    const dateStr = date.toLocaleDateString('es-PE', { weekday: 'short', day: 'numeric', month: 'short' });
-    const entry = date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = formatTenantDate(ci.timestamp, tz);
+    const entry = formatTenantTime(ci.timestamp, tz);
+    const ciDayKey = tenantDateKey(ci.timestamp, tz);
 
-    const co = checkOuts.find((r) => new Date(r.timestamp).toDateString() === date.toDateString());
+    const co = checkOuts.find((r) => tenantDateKey(r.timestamp, tz) === ciDayKey);
     let exit = '—';
     let hours = 0;
     if (co) {
-      const coDate = new Date(co.timestamp);
-      exit = coDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
-      hours = (coDate.getTime() - date.getTime()) / 3600000;
+      exit = formatTenantTime(co.timestamp, tz);
+      hours = (new Date(co.timestamp).getTime() - new Date(ci.timestamp).getTime()) / 3600000;
     }
 
     return { date: dateStr, entry, exit, hours: Math.round(hours * 10) / 10, within_radius: ci.within_radius, gps_suspicious: ci.gps_suspicious, gps_flags: ci.gps_flags ?? [] };

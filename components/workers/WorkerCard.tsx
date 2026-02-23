@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { User, MapPin, Clock, CalendarCheck } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
+import { formatTenantTime } from '@/lib/timezone';
 import type { Worker } from '@/lib/types';
 
 const statusBadge: Record<string, 'success' | 'warning' | 'error' | 'info'> = {
@@ -21,9 +22,10 @@ interface WorkerCardProps {
     hours_today: number;
     hours_month: number;
   };
+  timezone: string;
 }
 
-export default function WorkerCard({ worker }: WorkerCardProps) {
+export default function WorkerCard({ worker, timezone }: WorkerCardProps) {
   const locationName = (worker.location as unknown as { name: string })?.name ?? '—';
   const initials = worker.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
@@ -64,7 +66,7 @@ export default function WorkerCard({ worker }: WorkerCardProps) {
           </div>
           <p className="text-sm font-bold">
             {worker.today_check_in
-              ? new Date(worker.today_check_in).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })
+              ? formatTenantTime(worker.today_check_in, timezone)
               : '—'}
           </p>
           <p className="text-[10px] text-[var(--text-muted)]">Entrada</p>

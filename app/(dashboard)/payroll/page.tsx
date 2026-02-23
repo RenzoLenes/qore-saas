@@ -2,10 +2,12 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 import PayrollTable from '@/components/payroll/PayrollTable';
 import { getWorkers } from '@/lib/queries/payroll';
 import { getLocations } from '@/lib/queries/locations';
+import { getTenantTimezone, getTenantNow } from '@/lib/timezone';
 
 export default async function PayrollPage() {
-  const now = new Date();
-  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const tz = await getTenantTimezone();
+  const tenantNow = getTenantNow(tz);
+  const currentMonth = `${tenantNow.year}-${String(tenantNow.month + 1).padStart(2, '0')}`;
 
   const [workers, locations] = await Promise.all([
     getWorkers(currentMonth),

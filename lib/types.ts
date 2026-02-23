@@ -8,6 +8,7 @@ export interface Tenant {
   default_entry_mode: CheckInMode;
   default_exit_mode: CheckInMode;
   onboarding_completed: boolean;
+  timezone: string;
   created_at: string;
   updated_at: string;
 }

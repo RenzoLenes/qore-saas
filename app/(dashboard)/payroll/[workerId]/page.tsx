@@ -4,6 +4,7 @@ import { CalendarDays, Clock, TrendingUp, MapPin, AlertTriangle, CheckCircle2 } 
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import Badge from '@/components/ui/Badge';
 import { getWorkerById, getAttendanceForWorker } from '@/lib/queries/payroll';
+import { getTenantTimezone, getTenantNow, formatTenantTime, formatTenantDate, tenantDateKey } from '@/lib/timezone';
 
 const statusBadge: Record<string, 'success' | 'warning' | 'error' | 'info'> = {
   active: 'success',
@@ -20,8 +21,9 @@ const statusLabel: Record<string, string> = {
 /**
  * Count weekdays (Mon-Fri) in a month up to a cutoff date.
  * If work_days is provided, use those instead of default Mon-Fri.
+ * Uses tenant timezone for "today" cutoff.
  */
-function countWorkDays(year: number, month: number, workDays?: string[]): number {
+function countWorkDays(year: number, month: number, tz: string, workDays?: string[]): number {
   // Default: Mon(1) through Fri(5)
   const validDays = workDays && workDays.length > 0
     ? workDays.map((d) => {
@@ -30,7 +32,8 @@ function countWorkDays(year: number, month: number, workDays?: string[]): number
       }).filter((d) => d >= 0)
     : [1, 2, 3, 4, 5];
 
-  const today = new Date();
+  const tenantNow = getTenantNow(tz);
+  const today = new Date(tenantNow.year, tenantNow.month, tenantNow.day);
   const lastDay = new Date(year, month + 1, 0);
   const cutoff = today < lastDay ? today : lastDay;
 
@@ -46,9 +49,11 @@ function countWorkDays(year: number, month: number, workDays?: string[]): number
 export default async function WorkerDetailPage({ params }: { params: Promise<{ workerId: string }> }) {
   const { workerId } = await params;
 
-  const now = new Date();
-  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-  const monthLabel = now.toLocaleString('es-PE', { month: 'long', year: 'numeric' });
+  const tz = await getTenantTimezone();
+  const tenantNow = getTenantNow(tz);
+  const currentMonth = `${tenantNow.year}-${String(tenantNow.month + 1).padStart(2, '0')}`;
+  const monthDate = new Date(tenantNow.year, tenantNow.month, 1);
+  const monthLabel = monthDate.toLocaleString('es-PE', { month: 'long', year: 'numeric' });
   const monthLabelCapitalized = monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1);
 
   const [worker, records] = await Promise.all([
@@ -64,17 +69,16 @@ export default async function WorkerDetailPage({ params }: { params: Promise<{ w
   const checkOuts = records.filter((r) => r.type === 'check_out');
 
   const dailyData = checkIns.map((ci) => {
-    const date = new Date(ci.timestamp);
-    const dateStr = date.toLocaleDateString('es-PE', { weekday: 'short', day: 'numeric', month: 'short' });
-    const entry = date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = formatTenantDate(ci.timestamp, tz);
+    const entry = formatTenantTime(ci.timestamp, tz);
+    const ciDayKey = tenantDateKey(ci.timestamp, tz);
 
-    const co = checkOuts.find((r) => new Date(r.timestamp).toDateString() === date.toDateString());
+    const co = checkOuts.find((r) => tenantDateKey(r.timestamp, tz) === ciDayKey);
     let exit = '—';
     let hours = 0;
     if (co) {
-      const coDate = new Date(co.timestamp);
-      exit = coDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
-      hours = (coDate.getTime() - date.getTime()) / 3600000;
+      exit = formatTenantTime(co.timestamp, tz);
+      hours = (new Date(co.timestamp).getTime() - new Date(ci.timestamp).getTime()) / 3600000;
     }
 
     return {
@@ -93,7 +97,7 @@ export default async function WorkerDetailPage({ params }: { params: Promise<{ w
   const normalHours = totalHours - totalOvertime;
 
   // Calculate attendance rate based on work days in the month
-  const workDaysInMonth = countWorkDays(now.getFullYear(), now.getMonth(), locationWorkDays);
+  const workDaysInMonth = countWorkDays(tenantNow.year, tenantNow.month, tz, locationWorkDays);
   const attendanceRate = workDaysInMonth > 0 ? Math.min(Math.round((dailyData.length / workDaysInMonth) * 100), 100) : 0;
 
   return (

@@ -2,6 +2,7 @@
 
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getCurrentProfile } from '@/lib/auth';
+import { getTenantTimezone, getTenantTodayStart, getTenantMonthRange, getTenantTodayKey, tenantDateKey } from '@/lib/timezone';
 import type { PayrollWorker } from '@/lib/queries/payroll';
 
 /**
@@ -26,9 +27,9 @@ export async function getPayrollForMonth(month: string): Promise<PayrollWorker[]
 
   if (!workers || workers.length === 0) return [];
 
+  const tz = await getTenantTimezone();
   const [y, m] = month.split('-').map(Number);
-  const monthStart = new Date(y, m - 1, 1).toISOString();
-  const monthEnd = new Date(y, m, 0, 23, 59, 59, 999).toISOString();
+  const { start: monthStart, end: monthEnd } = getTenantMonthRange(y, m - 1, tz);
   const workerIds = workers.map((w) => w.id);
 
   const { data: allRecords } = await supabase
@@ -48,9 +49,8 @@ export async function getPayrollForMonth(month: string): Promise<PayrollWorker[]
     recordsByWorker.set(r.worker_id, list);
   }
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
-  const todayIso = todayStart.toISOString();
+  const todayIso = getTenantTodayStart(tz);
+  const todayKey = getTenantTodayKey(tz);
 
   return workers.map((worker) => {
     const workerRecords = recordsByWorker.get(worker.id) ?? [];
@@ -62,12 +62,12 @@ export async function getPayrollForMonth(month: string): Promise<PayrollWorker[]
     const daysSet = new Set<string>();
 
     for (const ci of checkIns) {
-      const ciDate = new Date(ci.timestamp);
-      const dayStr = ciDate.toDateString();
+      const dayStr = tenantDateKey(ci.timestamp, tz);
       const co = checkOuts.find(
-        (r) => new Date(r.timestamp).toDateString() === dayStr && new Date(r.timestamp) > ciDate,
+        (r) => tenantDateKey(r.timestamp, tz) === dayStr && new Date(r.timestamp) > new Date(ci.timestamp),
       );
-      const endTime = co ? new Date(co.timestamp) : (ciDate.toDateString() === new Date().toDateString() ? new Date() : ciDate);
+      const ciDate = new Date(ci.timestamp);
+      const endTime = co ? new Date(co.timestamp) : (dayStr === todayKey ? new Date() : ciDate);
       const dayHours = (endTime.getTime() - ciDate.getTime()) / 3600000;
       if (dayHours > 0) {
         hoursMonth += dayHours;
@@ -80,7 +80,7 @@ export async function getPayrollForMonth(month: string): Promise<PayrollWorker[]
     let hoursToday = 0;
     if (todayCheckIn) {
       const todayCheckOut = checkOuts.find(
-        (r) => new Date(r.timestamp).toDateString() === new Date().toDateString(),
+        (r) => tenantDateKey(r.timestamp, tz) === todayKey,
       );
       const end = todayCheckOut ? new Date(todayCheckOut.timestamp) : new Date();
       hoursToday = (end.getTime() - new Date(todayCheckIn.timestamp).getTime()) / 3600000;

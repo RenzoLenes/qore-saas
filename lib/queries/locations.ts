@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getCurrentProfile } from '@/lib/auth';
+import { getTenantTimezone, getTenantTodayStart } from '@/lib/timezone';
 import type { Location } from '@/lib/types';
 
 export const getLocations = cache(async (): Promise<Location[]> => {
@@ -11,8 +12,8 @@ export const getLocations = cache(async (): Promise<Location[]> => {
 
   if (!profile?.tenant_id) return [];
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const tz = await getTenantTimezone();
+  const todayIso = getTenantTodayStart(tz);
 
   const { data: locations } = await supabase
     .from('locations')
@@ -36,7 +37,7 @@ export const getLocations = cache(async (): Promise<Location[]> => {
           .select('id', { count: 'exact', head: true })
           .eq('location_id', loc.id)
           .eq('type', 'check_in')
-          .gte('timestamp', todayStart.toISOString()),
+          .gte('timestamp', todayIso),
       ]);
 
       return {
@@ -58,8 +59,8 @@ export const getLocationById = cache(async (id: string): Promise<Location | null
 
   if (!profile?.tenant_id) return null;
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const tz = await getTenantTimezone();
+  const todayIso = getTenantTodayStart(tz);
 
   const { data: location } = await supabase
     .from('locations')
@@ -81,7 +82,7 @@ export const getLocationById = cache(async (id: string): Promise<Location | null
       .select('id', { count: 'exact', head: true })
       .eq('location_id', id)
       .eq('type', 'check_in')
-      .gte('timestamp', todayStart.toISOString()),
+      .gte('timestamp', todayIso),
   ]);
 
   return {

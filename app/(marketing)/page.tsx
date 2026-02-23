@@ -19,7 +19,6 @@ import {
   Minus,
   Star,
   Linkedin,
-  Twitter,
   Mail,
   Phone,
   Signal,
@@ -211,7 +210,7 @@ export default function Home() {
                       {/* QR dot pattern */}
                       <div className="absolute inset-0 p-5 flex items-center justify-center">
                         <div className="w-full h-full grid grid-cols-7 grid-rows-7 gap-[3px] opacity-80">
-                          {[1,1,1,0,1,1,1, 1,0,1,0,1,0,1, 1,1,1,0,1,1,1, 0,0,0,0,0,0,0, 1,1,0,1,0,1,1, 0,1,0,1,1,0,1, 1,0,1,0,1,1,0].map((filled, i) => (
+                          {[1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0].map((filled, i) => (
                             <div key={i} className={`rounded-[2px] ${filled ? 'bg-brand' : 'bg-transparent'}`} />
                           ))}
                         </div>
@@ -336,7 +335,7 @@ export default function Home() {
               {
                 icon: QrCode,
                 title: 'Escaneo QR Dinámico',
-                desc: 'Códigos QR que se regeneran automáticamente. Registro en milisegundos desde cualquier smartphone.',
+                desc: 'Códigos QR que se regeneran automáticamente. Registro en segundos desde cualquier smartphone.',
                 color: 'text-cyan-400 bg-cyan-400/10',
               },
               {
@@ -348,7 +347,7 @@ export default function Home() {
               {
                 icon: BarChart3,
                 title: 'Reportes en Tiempo Real',
-                desc: 'Dashboard con métricas al instante. Exporta a Excel, PDF o integra con tu ERP.',
+                desc: 'Dashboard con métricas al instante. Exporta reportes en Excel, PDF y CSV.',
                 color: 'text-violet-400 bg-violet-400/10',
               },
               {
@@ -365,8 +364,8 @@ export default function Home() {
               },
               {
                 icon: Lock,
-                title: 'Seguridad Empresarial',
-                desc: 'Encriptación end-to-end, cumplimiento GDPR/LGPD, SSO y permisos granulares por rol.',
+                title: 'Seguridad y Permisos',
+                desc: 'Acceso protegido por roles, datos aislados por empresa y conexiones encriptadas. Solo tu equipo autorizado ve tu información.',
                 color: 'text-rose-400 bg-rose-400/10',
               },
             ].map((feature) => (
@@ -508,7 +507,7 @@ export default function Home() {
                   Los colaboradores abren la app QORE y escanean el código QR de la sede. El sistema valida automáticamente su ubicación GPS en tiempo real. Sin hardware adicional, sin filas, sin contacto.
                 </p>
                 <ul className="flex flex-col gap-2 mt-2">
-                  {['Registro en menos de 2 segundos', 'Funciona offline con sync automático', 'Compatible con iOS y Android'].map((item) => (
+                  {['Registro en menos de 2 segundos', 'Sin hardware adicional', 'Compatible con iOS y Android'].map((item) => (
                     <li key={item} className="flex items-center gap-2.5 text-sm text-[var(--text-secondary)]">
                       <Check className="h-4 w-4 text-brand flex-shrink-0" />
                       {item}
@@ -641,7 +640,7 @@ export default function Home() {
                         {[72, 88, 93, 65, 96, 91, 94].map((h, i) => (
                           <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
                             <div className="w-full rounded-sm bg-brand/60" style={{ height: `${h}%` }} />
-                            <span className="text-[7px] text-[var(--text-muted)]">{['L','M','X','J','V','S','D'][i]}</span>
+                            <span className="text-[7px] text-[var(--text-muted)]">{['L', 'M', 'X', 'J', 'V', 'S', 'D'][i]}</span>
                           </div>
                         ))}
                       </div>
@@ -716,15 +715,16 @@ export default function Home() {
               <div className="mb-6">
                 <span className="text-4xl font-extrabold tracking-tight">$49</span>
                 <span className="text-[var(--text-muted)] ml-1">/mes</span>
-                <p className="text-xs text-[var(--text-muted)] mt-1">Hasta 25 empleados</p>
+                <p className="text-xs text-[var(--text-muted)] mt-1">Hasta 30 empleados</p>
               </div>
               <ul className="flex flex-col gap-3 mb-8 flex-1">
                 {[
                   '1 sede',
-                  'QR + GPS básico',
-                  'Reportes estándar',
-                  'Soporte email',
-                  'App móvil',
+                  'Registro con QR + GPS',
+                  'Dashboard de asistencia',
+                  'Reportes en Excel',
+                  'Gestión de trabajadores',
+                  'Soporte por email',
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-[var(--text-secondary)]">
                     <Check className="h-4 w-4 text-brand flex-shrink-0" />
@@ -752,19 +752,19 @@ export default function Home() {
                 <p className="text-sm text-[var(--text-muted)]">Para empresas en crecimiento</p>
               </div>
               <div className="mb-6">
-                <span className="text-4xl font-extrabold tracking-tight">$149</span>
+                <span className="text-4xl font-extrabold tracking-tight">$99</span>
                 <span className="text-[var(--text-muted)] ml-1">/mes</span>
-                <p className="text-xs text-[var(--text-muted)] mt-1">Hasta 100 empleados</p>
+                <p className="text-xs text-[var(--text-muted)] mt-1">Hasta 80 empleados</p>
               </div>
               <ul className="flex flex-col gap-3 mb-8 flex-1">
                 {[
-                  'Hasta 5 sedes',
-                  'QR dinámico + Geofencing',
-                  'Reportes avanzados + Excel',
+                  'Hasta 3 sedes',
+                  'Todo de Starter +',
+                  'Radio GPS configurable por sede',
+                  'Módulo de nómina',
+                  'Reportes avanzados (Excel, CSV, PDF)',
+                  'Mapa de sedes en tiempo real',
                   'Soporte prioritario',
-                  'App móvil + Web',
-                  'API de integración',
-                  'Detección anti-fraude',
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-[var(--text-secondary)]">
                     <Check className="h-4 w-4 text-brand flex-shrink-0" />
@@ -780,25 +780,26 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Enterprise */}
+            {/* Business */}
             <div className="flex flex-col rounded-2xl border border-border bg-surface-raised p-8">
               <div className="mb-6">
-                <h3 className="text-lg font-bold mb-1">Enterprise</h3>
-                <p className="text-sm text-[var(--text-muted)]">Para grandes operaciones</p>
+                <h3 className="text-lg font-bold mb-1">Business</h3>
+                <p className="text-sm text-[var(--text-muted)]">Para operaciones grandes</p>
               </div>
               <div className="mb-6">
-                <span className="text-4xl font-extrabold tracking-tight">Custom</span>
-                <p className="text-xs text-[var(--text-muted)] mt-1">Empleados ilimitados</p>
+                <span className="text-4xl font-extrabold tracking-tight">$149</span>
+                <span className="text-[var(--text-muted)] ml-1">/mes</span>
+                <p className="text-xs text-[var(--text-muted)] mt-1">Hasta 200 empleados</p>
               </div>
               <ul className="flex flex-col gap-3 mb-8 flex-1">
                 {[
                   'Sedes ilimitadas',
-                  'Todo en Professional',
-                  'SSO / SAML',
-                  'SLA dedicado',
-                  'Onboarding personalizado',
-                  'Integraciones custom',
-                  'Account Manager',
+                  'Todo de Professional +',
+                  'Roles y permisos por sede',
+                  'Multi-administrador',
+                  'Exportación automatizada',
+                  'Alertas por email',
+                  'Soporte dedicado',
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-[var(--text-secondary)]">
                     <Check className="h-4 w-4 text-brand flex-shrink-0" />
@@ -810,7 +811,7 @@ export default function Home() {
                 href="#waitlist"
                 className="flex h-11 items-center justify-center rounded-xl border border-border font-semibold text-sm hover:bg-surface transition-colors"
               >
-                Contactar Ventas
+                Solicitar Demo
               </a>
             </div>
           </div>
@@ -896,20 +897,20 @@ export default function Home() {
                 a: 'La precisión depende del dispositivo, pero típicamente es de 5-15 metros. Puedes configurar el radio de validación por sede (geofencing) para adaptarlo a tus necesidades.',
               },
               {
-                q: '¿Funciona sin conexión a internet?',
-                a: 'La app puede registrar asistencia offline y sincronizar automáticamente cuando recupera conexión. Nunca pierdes un registro.',
+                q: '¿Qué necesitan mis empleados para registrar asistencia?',
+                a: 'Solo un smartphone con cámara y conexión a internet. No se requiere instalar ninguna app adicional ni hardware especial.',
               },
               {
-                q: '¿Puedo integrar QORE con mi sistema de nómina?',
-                a: 'Sí. Ofrecemos API REST documentada y exportación en múltiples formatos (Excel, CSV, JSON). También tenemos integraciones pre-construidas con los sistemas de nómina más populares en Latinoamérica.',
+                q: '¿Puedo exportar los datos de asistencia?',
+                a: 'Sí. Puedes exportar reportes de asistencia y nómina en múltiples formatos: Excel, CSV y PDF. Descarga los datos que necesites cuando los necesites.',
               },
               {
                 q: '¿Cuánto toma la implementación?',
-                a: 'Para el plan Starter y Professional, la implementación es self-service y toma menos de 30 minutos. Para Enterprise, nuestro equipo realiza un onboarding personalizado en 1-3 días hábiles.',
+                a: 'La configuración inicial es muy rápida. En todos los planes puedes crear tus sedes, registrar empleados y empezar a operar en menos de 30 minutos. Para el plan Business, nuestro equipo te acompaña en el proceso.',
               },
               {
                 q: '¿Mis datos están seguros?',
-                a: 'Absolutamente. Usamos encriptación AES-256 en reposo y TLS 1.3 en tránsito. Nuestros servidores están en infraestructura cloud certificada SOC 2 Type II. Cumplimos con GDPR y LGPD.',
+                a: 'Sí. Tu información está alojada en infraestructura cloud con conexiones encriptadas y acceso protegido por roles. Solo tú y tu equipo autorizado pueden ver los datos de tu empresa.',
               },
             ].map((faq, i) => (
               <details key={i} className="group py-5">
@@ -977,11 +978,8 @@ export default function Home() {
                 La plataforma de control de asistencia con QR y GPS para empresas modernas.
               </p>
               <div className="flex gap-3">
-                <a href="#" className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-[var(--text-muted)] hover:text-brand hover:border-brand/30 transition-colors">
+                <a href="https://www.linkedin.com/company/qoreapp/" target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-[var(--text-muted)] hover:text-brand hover:border-brand/30 transition-colors">
                   <Linkedin className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-[var(--text-muted)] hover:text-brand hover:border-brand/30 transition-colors">
-                  <Twitter className="h-4 w-4" />
                 </a>
               </div>
             </div>
@@ -990,23 +988,11 @@ export default function Home() {
             <div>
               <h4 className="text-sm font-semibold mb-4">Producto</h4>
               <ul className="flex flex-col gap-2.5">
-                {['Características', 'Precios', 'Integraciones', 'API', 'Changelog'].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="text-sm text-[var(--text-muted)] hover:text-foreground transition-colors">{item}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Empresa */}
-            <div>
-              <h4 className="text-sm font-semibold mb-4">Empresa</h4>
-              <ul className="flex flex-col gap-2.5">
                 {[
-                  { label: 'Sobre Nosotros', href: '#' },
-                  { label: 'Blog', href: '#' },
-                  { label: 'Contacto', href: '#' },
-                  { label: 'Trabaja con Nosotros', href: '#' },
+                  { label: 'Características', href: '#features' },
+                  { label: 'Cómo Funciona', href: '#how-it-works' },
+                  { label: 'Precios', href: '#pricing' },
+                  { label: 'FAQ', href: '#faq' },
                 ].map((item) => (
                   <li key={item.label}>
                     <a href={item.href} className="text-sm text-[var(--text-muted)] hover:text-foreground transition-colors">{item.label}</a>
@@ -1022,8 +1008,6 @@ export default function Home() {
                 {[
                   { label: 'Política de Privacidad', href: '/privacidad' },
                   { label: 'Términos de Servicio', href: '/terminos' },
-                  { label: 'Seguridad', href: '#' },
-                  { label: 'GDPR', href: '#' },
                 ].map((item) => (
                   <li key={item.label}>
                     <Link href={item.href} className="text-sm text-[var(--text-muted)] hover:text-foreground transition-colors">{item.label}</Link>
@@ -1031,6 +1015,20 @@ export default function Home() {
                 ))}
               </ul>
             </div>
+
+            {/* Contacto */}
+            <div>
+              <h4 className="text-sm font-semibold mb-4">Contacto</h4>
+              <ul className="flex flex-col gap-2.5">
+                <li>
+                  <a href="mailto:contacto@qore.io" className="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-foreground transition-colors">
+                    <Mail className="h-4 w-4" />
+                    contacto@qore.io
+                  </a>
+                </li>
+              </ul>
+            </div>
+
           </div>
 
           {/* Bottom Bar */}

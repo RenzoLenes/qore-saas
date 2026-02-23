@@ -1,26 +1,7 @@
+import { isOnTime, formatTenantTime } from '@/lib/timezone';
 import type { RecentActivity } from '@/lib/types';
 
-function formatTime(timestamp: string) {
-  const date = new Date(timestamp);
-  return date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', hour12: true });
-}
-
-function getStatus(timestamp: string, schedule: string): 'puntual' | 'tardanza' {
-  // Parse schedule start time from "08:00 - 18:00" format
-  const startTime = schedule.split('-')[0]?.trim();
-  if (!startTime) return 'puntual';
-
-  const [hours, minutes] = startTime.split(':').map(Number);
-  if (isNaN(hours) || isNaN(minutes)) return 'puntual';
-
-  const checkIn = new Date(timestamp);
-  const scheduledStart = new Date(checkIn);
-  scheduledStart.setHours(hours, minutes, 0, 0);
-
-  return checkIn <= scheduledStart ? 'puntual' : 'tardanza';
-}
-
-export default function ActivityFeed({ items }: { items: RecentActivity[] }) {
+export default function ActivityFeed({ items, timezone }: { items: RecentActivity[]; timezone: string }) {
   return (
     <div className="rounded-xl border border-border bg-surface-raised">
       <div className="px-5 py-4 border-b border-border flex items-center justify-between">
@@ -48,7 +29,7 @@ export default function ActivityFeed({ items }: { items: RecentActivity[] }) {
             </thead>
             <tbody className="divide-y divide-border">
               {items.map((item) => {
-                const status = getStatus(item.timestamp, item.location_schedule);
+                const onTime = isOnTime(item.timestamp, item.location_schedule, timezone);
                 return (
                   <tr key={item.id} className="hover:bg-surface/50 transition-colors">
                     <td className="px-5 py-3">
@@ -61,18 +42,18 @@ export default function ActivityFeed({ items }: { items: RecentActivity[] }) {
                       <span className="truncate max-w-[150px] block">{item.location_name}</span>
                     </td>
                     <td className="px-5 py-3 font-mono text-xs text-[var(--text-secondary)]">
-                      {formatTime(item.timestamp)}
+                      {formatTenantTime(item.timestamp, timezone)}
                     </td>
                     <td className="px-5 py-3">
                       <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        status === 'puntual'
+                        onTime
                           ? 'bg-emerald-500/10 text-emerald-500'
                           : 'bg-amber-500/10 text-amber-500'
                       }`}>
                         <span className={`h-1.5 w-1.5 rounded-full ${
-                          status === 'puntual' ? 'bg-emerald-500' : 'bg-amber-500'
+                          onTime ? 'bg-emerald-500' : 'bg-amber-500'
                         }`} />
-                        {status === 'puntual' ? 'Puntual' : 'Tardanza'}
+                        {onTime ? 'Puntual' : 'Tardanza'}
                       </span>
                     </td>
                   </tr>

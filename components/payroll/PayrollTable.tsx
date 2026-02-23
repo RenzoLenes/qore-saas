@@ -40,11 +40,11 @@ const statusLabel: Record<string, string> = {
   inactive: 'Inactivo',
 };
 
-function generateMonthOptions(): SelectOption[] {
+function generateMonthOptions(currentMonth: string): SelectOption[] {
   const options: SelectOption[] = [];
-  const now = new Date();
+  const [year, month] = currentMonth.split('-').map(Number);
   for (let i = 0; i < 6; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const d = new Date(year, month - 1 - i, 1);
     const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
     const label = d.toLocaleString('es-PE', { month: 'long', year: 'numeric' });
     options.push({ value, label: label.charAt(0).toUpperCase() + label.slice(1) });
@@ -85,7 +85,7 @@ export default function PayrollTable({ initialWorkers, locations, currentMonth }
   const [month, setMonth] = useState(currentMonth);
   const [isPending, startTransition] = useTransition();
 
-  const monthOptions = useMemo(() => generateMonthOptions(), []);
+  const monthOptions = useMemo(() => generateMonthOptions(currentMonth), [currentMonth]);
 
   const locationOptions: SelectOption[] = useMemo(() => [
     { value: '', label: 'Todas las sedes' },

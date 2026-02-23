@@ -35,7 +35,7 @@ function resolveMode(
 export default function WorkerPanel({ data }: WorkerPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { worker, isCheckedIn, lastRecord, recentRecords } = data;
+  const { worker, isCheckedIn, lastRecord, recentRecords, timezone } = data;
   const location = worker.location;
 
   const entryMode = resolveMode(worker, 'entry');
@@ -155,7 +155,7 @@ export default function WorkerPanel({ data }: WorkerPanelProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkedInTime = isCheckedIn && lastRecord
-    ? new Date(lastRecord.timestamp).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })
+    ? new Date(lastRecord.timestamp).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', timeZone: timezone })
     : null;
 
   return (
@@ -280,7 +280,6 @@ export default function WorkerPanel({ data }: WorkerPanelProps) {
         ) : (
           <div className="space-y-2">
             {recentRecords.map((record) => {
-              const date = new Date(record.timestamp);
               const isCheckIn = record.type === 'check_in';
               return (
                 <div key={record.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
@@ -289,12 +288,12 @@ export default function WorkerPanel({ data }: WorkerPanelProps) {
                     <div>
                       <p className="text-sm font-medium">{isCheckIn ? 'Entrada' : 'Salida'}</p>
                       <p className="text-[10px] text-[var(--text-muted)]">
-                        {date.toLocaleDateString('es-PE', { day: '2-digit', month: 'short' })}
+                        {new Date(record.timestamp).toLocaleDateString('es-PE', { day: '2-digit', month: 'short', timeZone: timezone })}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-mono">{date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className="text-sm font-mono">{new Date(record.timestamp).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', timeZone: timezone })}</p>
                     <p className="text-[10px] text-[var(--text-muted)] uppercase">{record.method}</p>
                   </div>
                 </div>
