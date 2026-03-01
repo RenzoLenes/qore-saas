@@ -10,7 +10,11 @@ export default async function SettingsPage() {
     redirect('/dashboard');
   }
 
-  const { default_entry_mode, default_exit_mode, name, plan } = profile.tenant!;
+  if (!profile.tenant) {
+    redirect('/onboarding');
+  }
+
+  const { default_entry_mode, default_exit_mode, name, plan } = profile.tenant;
 
   return (
     <div className="space-y-6">

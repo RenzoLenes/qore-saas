@@ -7,7 +7,7 @@ interface QRPreviewProps {
   size?: number;
 }
 
-const QR_BASE_URL = 'https://app.qore.io/scan';
+const QR_BASE_URL = `${process.env.NEXT_PUBLIC_APP_URL || 'https://app.qore.io'}/scan`;
 
 export default function QRPreview({ token, size = 128 }: QRPreviewProps) {
   return (

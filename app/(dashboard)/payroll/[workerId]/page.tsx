@@ -27,7 +27,7 @@ function countWorkDays(year: number, month: number, tz: string, workDays?: strin
   // Default: Mon(1) through Fri(5)
   const validDays = workDays && workDays.length > 0
     ? workDays.map((d) => {
-        const map: Record<string, number> = { lun: 1, mar: 2, mie: 3, jue: 4, vie: 5, sab: 6, dom: 0 };
+        const map: Record<string, number> = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 0 };
         return map[d] ?? -1;
       }).filter((d) => d >= 0)
     : [1, 2, 3, 4, 5];
