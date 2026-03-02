@@ -13,8 +13,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.qore.io";
+
 export const metadata: Metadata = {
-  title: "QORE — Control de Asistencia Inteligente para Empresas",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "QORE — Control de Asistencia Inteligente para Empresas",
+    template: "%s | QORE",
+  },
   description:
     "Plataforma B2B de control de asistencia con validación QR y geolocalización GPS en tiempo real. Elimina el fraude, automatiza reportes y simplifica la nómina.",
   keywords: [
@@ -35,6 +41,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_ES",
     siteName: "QORE",
+    url: BASE_URL,
   },
   twitter: {
     card: "summary_large_image",
