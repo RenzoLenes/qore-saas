@@ -67,9 +67,9 @@ export default function LoginPage() {
 
         {/* Forgot password */}
         <div className="flex justify-end">
-          <Button variant="ghost" size="sm" type="button" className="!px-0 !h-auto text-xs text-brand hover:underline">
+          <Link href="/forgot-password" className="text-xs text-brand hover:underline">
             ¿Olvidaste tu contraseña?
-          </Button>
+          </Link>
         </div>
 
         <Button type="submit" loading={pending} className="w-full h-11">
