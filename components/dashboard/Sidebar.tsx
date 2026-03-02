@@ -9,6 +9,7 @@ import {
   FileSpreadsheet,
   Users,
   Settings,
+  CreditCard,
   LogOut,
   ChevronLeft,
   Menu,
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { href: '/locations', label: 'Sedes', icon: MapPin },
   { href: '/workers', label: 'Trabajadores', icon: Users },
   { href: '/payroll', label: 'Planillas', icon: FileSpreadsheet },
+  { href: '/billing', label: 'Facturación', icon: CreditCard },
   { href: '/settings', label: 'Configuración', icon: Settings },
 ];
 

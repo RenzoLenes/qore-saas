@@ -1,11 +1,11 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_ROUTES = ['/', '/privacidad', '/terminos', '/api/waitlist'];
+const PUBLIC_ROUTES = ['/', '/privacidad', '/terminos', '/api/waitlist', '/api/mercadopago/webhook'];
 const AUTH_ROUTES = ['/set-password', '/auth/callback'];
 const ONBOARDING_ROUTE = '/onboarding';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -47,7 +47,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect unauthenticated users to login
-  if (!user && pathname !== '/login' && pathname !== '/register') {
+  if (!user && pathname !== '/login' && pathname !== '/register' && pathname !== '/forgot-password') {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
@@ -66,7 +66,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Prevent workers from accessing admin dashboard
-  if (user && isWorker && (pathname.startsWith('/dashboard') || pathname.startsWith('/locations') || pathname.startsWith('/workers') || pathname.startsWith('/payroll') || pathname.startsWith('/qr') || pathname.startsWith('/settings') || pathname.startsWith('/onboarding'))) {
+  if (user && isWorker && (pathname.startsWith('/dashboard') || pathname.startsWith('/locations') || pathname.startsWith('/workers') || pathname.startsWith('/payroll') || pathname.startsWith('/billing') || pathname.startsWith('/qr') || pathname.startsWith('/settings') || pathname.startsWith('/onboarding'))) {
     const url = request.nextUrl.clone();
     url.pathname = '/worker';
     return NextResponse.redirect(url);

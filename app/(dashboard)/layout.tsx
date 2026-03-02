@@ -2,11 +2,35 @@ import { redirect } from 'next/navigation';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
 import { getCurrentProfile } from '@/lib/auth';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentProfile();
 
   if (profile?.role === 'worker') redirect('/worker');
+
+  // Real-time expiration check: if cancelled subscription has expired, revert to trial
+  if (profile?.tenant_id) {
+    const { data: sub } = await supabaseAdmin
+      .from('subscriptions')
+      .select('id, status, access_expires_at')
+      .eq('tenant_id', profile.tenant_id)
+      .eq('status', 'cancelled')
+      .not('access_expires_at', 'is', null)
+      .maybeSingle();
+
+    if (sub?.access_expires_at && new Date(sub.access_expires_at) < new Date()) {
+      await supabaseAdmin
+        .from('tenants')
+        .update({ plan: 'trial' })
+        .eq('id', profile.tenant_id);
+
+      await supabaseAdmin
+        .from('subscriptions')
+        .delete()
+        .eq('id', sub.id);
+    }
+  }
 
   const user = profile
     ? {
