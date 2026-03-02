@@ -9,11 +9,27 @@ import { getCurrentProfile } from '@/lib/auth';
 import { resend } from '@/lib/resend';
 import { workerSchema } from '@/lib/validations';
 import { WorkerInvitationEmail } from '@/lib/email-templates/worker-invitation';
+import { getPlanLimits, checkLimit } from '@/lib/plan-limits';
 
 export async function createWorker(_prevState: { error: string } | null, formData: FormData) {
   const profile = await getCurrentProfile();
   if (!profile?.tenant_id || !['owner', 'admin'].includes(profile.role)) {
     return { error: 'No tienes permisos para agregar trabajadores.' };
+  }
+
+  // Check plan limits
+  const supabaseForCount = await createServerSupabaseClient();
+  const { count } = await supabaseForCount
+    .from('workers')
+    .select('*', { count: 'exact', head: true })
+    .eq('tenant_id', profile.tenant_id)
+    .eq('status', 'active');
+
+  const limits = getPlanLimits(profile.tenant?.plan ?? 'trial');
+  const limitCheck = checkLimit(count ?? 0, limits.maxWorkers, 'trabajadores');
+
+  if (!limitCheck.allowed) {
+    return { error: `Has alcanzado el límite de ${limitCheck.max} trabajadores de tu plan. Actualiza tu plan para agregar más.` };
   }
 
   const raw = {

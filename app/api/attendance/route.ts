@@ -4,9 +4,14 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 import { checkInSchema } from '@/lib/validations';
 import { haversineDistance, analyzeGpsSpoofing } from '@/lib/geo';
 import { resolveMode } from '@/lib/resolve-mode';
+import { rateLimit } from '@/lib/rate-limit';
 import type { CheckInMode } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 requests per minute per IP
+  const limited = rateLimit(request, { max: 20, windowSec: 60 });
+  if (limited) return limited;
+
   try {
     // 1. Authenticate
     const supabase = await createServerSupabaseClient();

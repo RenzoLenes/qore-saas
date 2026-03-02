@@ -5,11 +5,27 @@ import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getCurrentProfile } from '@/lib/auth';
 import { locationSchema } from '@/lib/validations';
+import { getPlanLimits, checkLimit } from '@/lib/plan-limits';
 
 export async function createLocation(_prevState: { error: string } | null, formData: FormData) {
   const profile = await getCurrentProfile();
   if (!profile?.tenant_id || !['owner', 'admin'].includes(profile.role)) {
     return { error: 'No tienes permisos para crear sedes.' };
+  }
+
+  // Check plan limits
+  const supabaseForCount = await createServerSupabaseClient();
+  const { count } = await supabaseForCount
+    .from('locations')
+    .select('*', { count: 'exact', head: true })
+    .eq('tenant_id', profile.tenant_id)
+    .eq('status', 'active');
+
+  const limits = getPlanLimits(profile.tenant?.plan ?? 'trial');
+  const limitCheck = checkLimit(count ?? 0, limits.maxLocations, 'sedes');
+
+  if (!limitCheck.allowed) {
+    return { error: `Has alcanzado el límite de ${limitCheck.max} sedes de tu plan. Actualiza tu plan para agregar más.` };
   }
 
   const raw = {

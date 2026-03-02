@@ -5,8 +5,13 @@ import { resend } from '@/lib/resend';
 import { waitlistSchema } from '@/lib/validations';
 import { LeadConfirmationEmail } from '@/lib/email-templates/lead-confirmation';
 import { TeamNotificationEmail } from '@/lib/email-templates/team-notification';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 requests per minute per IP
+  const limited = rateLimit(request, { max: 5, windowSec: 60 });
+  if (limited) return limited;
+
   try {
     // 1. Parse and validate request body
     const body = await request.json();
