@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidad — QORE',
-  description: 'Política de privacidad de QORE Systems. Conoce cómo recopilamos, usamos y protegemos tus datos personales.',
+  description: 'Política de privacidad de Senel Studio. Conoce cómo recopilamos, usamos y protegemos tus datos personales.',
 };
 
 export default function PrivacidadPage() {
@@ -37,7 +37,7 @@ export default function PrivacidadPage() {
           <section>
             <h2 className="text-lg font-bold text-foreground mb-3">1. Información General</h2>
             <p>
-              QORE Systems (&ldquo;QORE&rdquo;, &ldquo;nosotros&rdquo;, &ldquo;nuestro&rdquo;) opera la plataforma QORE,
+              Senel Studio (&ldquo;QORE&rdquo;, &ldquo;nosotros&rdquo;, &ldquo;nuestro&rdquo;) opera la plataforma QORE,
               un sistema de gestión de asistencia con tecnología QR y GPS. Esta Política de Privacidad
               describe cómo recopilamos, usamos, almacenamos y protegemos la información personal de
               nuestros usuarios, clientes y visitantes del sitio web.
@@ -183,7 +183,7 @@ export default function PrivacidadPage() {
               <li><strong className="text-foreground">Email:</strong>{' '}
                 <a href="mailto:privacidad@qore.io" className="text-brand hover:underline">privacidad@qore.io</a>
               </li>
-              <li><strong className="text-foreground">Empresa:</strong> QORE Systems</li>
+              <li><strong className="text-foreground">Empresa:</strong> Senel Studio</li>
             </ul>
           </section>
         </div>
@@ -192,7 +192,7 @@ export default function PrivacidadPage() {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[var(--text-muted)]">&copy; {new Date().getFullYear()} QORE Systems</p>
+          <p className="text-sm text-[var(--text-muted)]">&copy; {new Date().getFullYear()} Senel Studio</p>
           <div className="flex items-center gap-4">
             <Link href="/terminos" className="text-xs text-[var(--text-muted)] hover:text-foreground transition-colors">
               Términos de Servicio

@@ -37,7 +37,7 @@ export default function TerminosPage() {
           <section>
             <h2 className="text-lg font-bold text-foreground mb-3">1. Aceptación de los Términos</h2>
             <p>
-              Al acceder o utilizar la plataforma QORE (&ldquo;el Servicio&rdquo;), operada por QORE Systems
+              Al acceder o utilizar la plataforma QORE (&ldquo;el Servicio&rdquo;), operada por Senel Studio
               (&ldquo;la Empresa&rdquo;), aceptas quedar vinculado por estos Términos de Servicio. Si no estás
               de acuerdo con alguna parte de estos términos, no podrás acceder al Servicio.
             </p>
@@ -112,7 +112,7 @@ export default function TerminosPage() {
             <h2 className="text-lg font-bold text-foreground mb-3">6. Propiedad Intelectual</h2>
             <p>
               El Servicio, incluyendo su código fuente, diseño, logotipos, marcas registradas, textos,
-              gráficos y demás contenido, son propiedad exclusiva de QORE Systems y están protegidos
+              gráficos y demás contenido, son propiedad exclusiva de Senel Studio y están protegidos
               por leyes de propiedad intelectual.
             </p>
             <p className="mt-3">
@@ -157,7 +157,7 @@ export default function TerminosPage() {
           <section>
             <h2 className="text-lg font-bold text-foreground mb-3">9. Limitación de Responsabilidad</h2>
             <p>
-              En la máxima medida permitida por la ley, QORE Systems no será responsable por daños
+              En la máxima medida permitida por la ley, Senel Studio no será responsable por daños
               indirectos, incidentales, especiales, consecuentes o punitivos, incluyendo pero no
               limitado a: pérdida de beneficios, datos, uso u otras pérdidas intangibles.
             </p>
@@ -200,7 +200,7 @@ export default function TerminosPage() {
             <h2 className="text-lg font-bold text-foreground mb-3">12. Ley Aplicable</h2>
             <p>
               Estos Términos de Servicio se regirán e interpretarán de acuerdo con las leyes aplicables
-              en la jurisdicción de operación de QORE Systems. Cualquier disputa se resolverá mediante
+              en la jurisdicción de operación de Senel Studio. Cualquier disputa se resolverá mediante
               los tribunales competentes de dicha jurisdicción, salvo que las partes acuerden someterse
               a arbitraje.
             </p>
@@ -215,7 +215,7 @@ export default function TerminosPage() {
               <li><strong className="text-foreground">Email:</strong>{' '}
                 <a href="mailto:legal@qore.io" className="text-brand hover:underline">legal@qore.io</a>
               </li>
-              <li><strong className="text-foreground">Empresa:</strong> QORE Systems</li>
+              <li><strong className="text-foreground">Empresa:</strong> Senel Studio</li>
             </ul>
           </section>
         </div>
@@ -224,7 +224,7 @@ export default function TerminosPage() {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[var(--text-muted)]">&copy; {new Date().getFullYear()} QORE Systems</p>
+          <p className="text-sm text-[var(--text-muted)]">&copy; {new Date().getFullYear()} Senel Studio</p>
           <div className="flex items-center gap-4">
             <Link href="/privacidad" className="text-xs text-[var(--text-muted)] hover:text-foreground transition-colors">
               Política de Privacidad
