@@ -46,7 +46,7 @@ export default function Nav() {
 
         <div className="flex items-center ml-auto md:ml-0">
           <a
-            href="#waitlist"
+            href="/#waitlist"
             className="flex h-9 items-center rounded-full px-5 text-sm font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
             style={{
               background: 'linear-gradient(180deg, #1a3a5c 0%, #000d2a 100%)',
