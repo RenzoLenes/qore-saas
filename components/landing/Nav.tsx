@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { NAV_LINKS } from '@/lib/landing-content';
 
+
 const navAnim = {
   hidden: { opacity: 0, y: -20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 } },
@@ -43,13 +44,7 @@ export default function Nav() {
           ))}
         </div>
 
-        <div className="flex items-center gap-3 ml-auto md:ml-0">
-          <Link
-            href="/login"
-            className="hidden sm:flex h-9 items-center rounded-full border border-slate-200 px-4 text-sm font-medium text-[#000d2a] hover:bg-slate-50 transition-colors"
-          >
-            Iniciar Sesion
-          </Link>
+        <div className="flex items-center ml-auto md:ml-0">
           <a
             href="#waitlist"
             className="flex h-9 items-center rounded-full px-5 text-sm font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
