@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import Nav from '@/components/landing/Nav';
+import Footer from '@/components/landing/Footer';
 
 export const metadata: Metadata = {
   title: 'Términos de Servicio — QORE',
@@ -9,33 +9,25 @@ export const metadata: Metadata = {
 
 export default function TerminosPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/">
-            <Image src="/logo.png" alt="QORE" width={120} height={32} className="h-8 w-auto" />
-          </Link>
-          <Link href="/" className="text-sm text-[var(--text-secondary)] hover:text-foreground transition-colors">
-            Volver al inicio
-          </Link>
-        </div>
-      </nav>
+    <>
+      <Nav />
 
-      <main className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <main className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-32 pb-24">
         <div className="mb-12">
-          <span className="text-xs font-semibold tracking-widest text-brand uppercase mb-4 block">Legal</span>
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl mb-4">
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 mb-6 text-[11px] font-semibold tracking-[0.18em] text-[#2dd4ff] font-mono">
+            LEGAL
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] text-slate-900 mb-4">
             Términos de Servicio
           </h1>
-          <p className="text-sm text-[var(--text-muted)]">
+          <p className="text-sm text-slate-500">
             Última actualización: 1 de febrero de 2026
           </p>
         </div>
 
-        <div className="flex flex-col gap-8 text-[var(--text-secondary)] text-sm leading-relaxed">
+        <div className="flex flex-col gap-8 text-slate-600 text-[15px] leading-relaxed">
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">1. Aceptación de los Términos</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">1. Aceptación de los Términos</h2>
             <p>
               Al acceder o utilizar la plataforma QORE (&ldquo;el Servicio&rdquo;), operada por Senel Studio
               (&ldquo;la Empresa&rdquo;), aceptas quedar vinculado por estos Términos de Servicio. Si no estás
@@ -49,7 +41,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">2. Descripción del Servicio</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">2. Descripción del Servicio</h2>
             <p>
               QORE es una plataforma de Software como Servicio (SaaS) que provee:
             </p>
@@ -64,7 +56,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">3. Registro y Cuentas</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">3. Registro y Cuentas</h2>
             <p>
               Para utilizar el Servicio, debes crear una cuenta proporcionando información precisa,
               completa y actualizada. Eres responsable de:
@@ -82,21 +74,22 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">4. Planes y Pagos</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">4. Planes y Pagos</h2>
             <p>
-              El Servicio se ofrece en diferentes planes de suscripción. Al seleccionar un plan de pago:
+              El Servicio se ofrece bajo un modelo de suscripción mensual por sede. Al contratar un plan de pago:
             </p>
             <ul className="list-disc pl-5 mt-3 space-y-2">
-              <li>Los pagos se procesan mensualmente de forma anticipada.</li>
-              <li>Los precios están expresados en dólares estadounidenses (USD) y no incluyen impuestos aplicables.</li>
-              <li>Nos reservamos el derecho de modificar los precios con aviso previo de 30 días.</li>
-              <li>No se realizan reembolsos por períodos parciales de uso.</li>
+              <li>Los pagos se procesan mensualmente y por adelantado, según el número de sedes activas.</li>
+              <li>Los precios están expresados en soles peruanos (PEN) e incluyen IGV cuando aplique.</li>
+              <li>Nos reservamos el derecho de modificar los precios con aviso previo por correo electrónico de al menos 30 días.</li>
+              <li>Puedes cancelar tu suscripción en cualquier momento desde el panel de administración. La cancelación toma efecto al final del período de facturación en curso.</li>
+              <li>No se realizan reembolsos por períodos parciales ya pagados.</li>
               <li>La falta de pago puede resultar en la suspensión o terminación del servicio.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">5. Uso Aceptable</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">5. Uso Aceptable</h2>
             <p>Al utilizar el Servicio, te comprometes a:</p>
             <ul className="list-disc pl-5 mt-3 space-y-2">
               <li>No utilizar el Servicio para fines ilegales o no autorizados.</li>
@@ -109,7 +102,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">6. Propiedad Intelectual</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">6. Propiedad Intelectual</h2>
             <p>
               El Servicio, incluyendo su código fuente, diseño, logotipos, marcas registradas, textos,
               gráficos y demás contenido, son propiedad exclusiva de Senel Studio y están protegidos
@@ -122,7 +115,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">7. Datos del Cliente</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">7. Datos del Cliente</h2>
             <p>
               Retienes todos los derechos sobre los datos que ingresas en la plataforma (&ldquo;Datos del
               Cliente&rdquo;). Nos otorgas una licencia limitada para procesar estos datos exclusivamente
@@ -137,25 +130,26 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">8. Disponibilidad del Servicio</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">8. Disponibilidad del Servicio</h2>
             <p>
-              Nos esforzamos por mantener una disponibilidad del 99.8% mensual. Sin embargo, el Servicio
-              puede estar temporalmente no disponible por:
+              Nos esforzamos por mantener el Servicio disponible la mayor parte del tiempo, pero no
+              garantizamos disponibilidad ininterrumpida. El Servicio puede estar temporalmente no
+              disponible por:
             </p>
             <ul className="list-disc pl-5 mt-3 space-y-2">
-              <li>Mantenimiento programado (notificado con al menos 24 horas de anticipación).</li>
+              <li>Mantenimiento programado, que intentaremos notificar con anticipación cuando sea posible.</li>
               <li>Actualizaciones de seguridad urgentes.</li>
               <li>Circunstancias de fuerza mayor.</li>
               <li>Problemas con proveedores de infraestructura de terceros.</li>
             </ul>
             <p className="mt-3">
-              Para clientes Enterprise, los términos de disponibilidad se definen en el Acuerdo de
-              Nivel de Servicio (SLA) específico.
+              Para clientes con plan Enterprise, los términos específicos de disponibilidad pueden
+              definirse en un Acuerdo de Nivel de Servicio (SLA) por separado.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">9. Limitación de Responsabilidad</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">9. Limitación de Responsabilidad</h2>
             <p>
               En la máxima medida permitida por la ley, Senel Studio no será responsable por daños
               indirectos, incidentales, especiales, consecuentes o punitivos, incluyendo pero no
@@ -169,13 +163,13 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">10. Terminación</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">10. Terminación</h2>
             <p>
               Cualquiera de las partes puede terminar la relación contractual:
             </p>
             <ul className="list-disc pl-5 mt-3 space-y-2">
-              <li><strong className="text-foreground">Por el cliente:</strong> En cualquier momento, cancelando la suscripción desde el panel de administración.</li>
-              <li><strong className="text-foreground">Por QORE:</strong> Con aviso previo de 30 días, o inmediatamente en caso de violación de estos términos.</li>
+              <li><strong className="text-slate-900">Por el cliente:</strong> En cualquier momento, cancelando la suscripción desde el panel de administración.</li>
+              <li><strong className="text-slate-900">Por QORE:</strong> Con aviso previo de 30 días, o inmediatamente en caso de violación de estos términos.</li>
             </ul>
             <p className="mt-3">
               Al terminar, tu acceso al Servicio cesará. Podrás solicitar la exportación de tus datos
@@ -184,7 +178,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">11. Modificaciones</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">11. Modificaciones</h2>
             <p>
               Nos reservamos el derecho de modificar estos Términos de Servicio en cualquier momento.
               Los cambios significativos serán notificados con al menos 30 días de anticipación a
@@ -197,7 +191,7 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">12. Ley Aplicable</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">12. Ley Aplicable</h2>
             <p>
               Estos Términos de Servicio se regirán e interpretarán de acuerdo con las leyes aplicables
               en la jurisdicción de operación de Senel Studio. Cualquier disputa se resolverá mediante
@@ -207,34 +201,21 @@ export default function TerminosPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-foreground mb-3">13. Contacto</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-3">13. Contacto</h2>
             <p>
               Para consultas sobre estos Términos de Servicio:
             </p>
             <ul className="list-none mt-3 space-y-1">
-              <li><strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:legal@qore.io" className="text-brand hover:underline">legal@qore.io</a>
+              <li><strong className="text-slate-900">Email:</strong>{' '}
+                <a href="mailto:contacto@senelstudio.me" className="text-[#0891b2] hover:underline font-mono">contacto@senelstudio.me</a>
               </li>
-              <li><strong className="text-foreground">Empresa:</strong> Senel Studio</li>
+              <li><strong className="text-slate-900">Empresa:</strong> Senel Studio</li>
             </ul>
           </section>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[var(--text-muted)]">&copy; {new Date().getFullYear()} Senel Studio</p>
-          <div className="flex items-center gap-4">
-            <Link href="/privacidad" className="text-xs text-[var(--text-muted)] hover:text-foreground transition-colors">
-              Política de Privacidad
-            </Link>
-            <Link href="/" className="text-xs text-[var(--text-muted)] hover:text-foreground transition-colors">
-              Inicio
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

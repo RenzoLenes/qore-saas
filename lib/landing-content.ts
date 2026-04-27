@@ -185,7 +185,6 @@ export const FOOTER_COLS = [
     links: [
       { label: 'Política de Privacidad', href: '/privacidad' },
       { label: 'Términos de Servicio', href: '/terminos' },
-      { label: 'Política de Cancelación', href: '/cancelacion' },
     ],
   },
 ];
