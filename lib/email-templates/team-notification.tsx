@@ -10,22 +10,18 @@ import {
   Section,
 } from '@react-email/components';
 import * as React from 'react';
-import type { WaitlistFormData } from '@/lib/validations';
-
-interface TeamNotificationEmailProps extends WaitlistFormData {
+interface TeamNotificationEmailProps {
+  email: string;
   submittedAt: string;
 }
 
 export const TeamNotificationEmail: React.FC<TeamNotificationEmailProps> = ({
   email,
-  company_name,
-  company_size,
-  industry,
   submittedAt,
 }) => (
   <Html>
     <Head />
-    <Preview>Nuevo Lead: {company_name} - Tamaño {company_size}</Preview>
+    <Preview>Nuevo Lead: {email}</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
@@ -43,21 +39,6 @@ export const TeamNotificationEmail: React.FC<TeamNotificationEmailProps> = ({
               <Link href={`mailto:${email}`} style={link}>
                 {email}
               </Link>
-            </Section>
-
-            <Section style={row}>
-              <Text style={label}>Empresa:</Text>
-              <Text style={value}>{company_name}</Text>
-            </Section>
-
-            <Section style={row}>
-              <Text style={label}>Tamaño:</Text>
-              <Text style={value}>{company_size} empleados</Text>
-            </Section>
-
-            <Section style={row}>
-              <Text style={label}>Rubro:</Text>
-              <Text style={value}>{industry || 'No especificado'}</Text>
             </Section>
 
             <Section style={rowLast}>

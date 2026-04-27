@@ -10,13 +10,7 @@ import {
 } from '@react-email/components';
 import * as React from 'react';
 
-interface LeadConfirmationEmailProps {
-  companyName: string;
-}
-
-export const LeadConfirmationEmail: React.FC<LeadConfirmationEmailProps> = ({
-  companyName,
-}) => (
+export const LeadConfirmationEmail: React.FC = () => (
   <Html>
     <Head />
     <Preview>¡Gracias por tu interés en QORE! Te contactaremos pronto.</Preview>
@@ -30,7 +24,7 @@ export const LeadConfirmationEmail: React.FC<LeadConfirmationEmailProps> = ({
           <Heading style={title}>¡Gracias por tu interés en QORE!</Heading>
 
           <Text style={paragraph}>
-            Hola equipo de <strong>{companyName}</strong>,
+            ¡Hola!
           </Text>
 
           <Text style={paragraph}>

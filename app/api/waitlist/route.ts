@@ -17,11 +17,6 @@ export async function POST(request: NextRequest) {
       .from('waitlist_leads')
       .insert({
         email: validatedData.email,
-        company_name: validatedData.company_name,
-        company_size: validatedData.company_size,
-        industry: validatedData.industry || null,
-        contact_consent: validatedData.contact_consent,
-        status: 'new',
         source: 'landing',
       })
       .select()
@@ -53,9 +48,7 @@ export async function POST(request: NextRequest) {
       from: process.env.RESEND_FROM_EMAIL!,
       to: validatedData.email,
       subject: '¡Gracias por tu interés en QORE!',
-      react: React.createElement(LeadConfirmationEmail, {
-        companyName: validatedData.company_name,
-      }),
+      react: React.createElement(LeadConfirmationEmail),
     }).catch((error) => {
       console.error('Failed to send lead confirmation email:', error);
       // Don't throw - email failure shouldn't fail the request
@@ -67,9 +60,9 @@ export async function POST(request: NextRequest) {
     const teamEmailPromise = resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL!,
       to: process.env.RESEND_TEAM_EMAIL!,
-      subject: `Nuevo Lead: ${validatedData.company_name} Tamaño (${validatedData.company_size})`,
+      subject: `Nuevo Lead: ${validatedData.email}`,
       react: React.createElement(TeamNotificationEmail, {
-        ...validatedData,
+        email: validatedData.email,
         submittedAt: lead.created_at,
       }),
     }).catch((error) => {
