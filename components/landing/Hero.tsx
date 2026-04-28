@@ -96,7 +96,7 @@ export default function Hero() {
   }, [shouldReduce]);
 
   return (
-    <section className="relative pt-16 pb-24 lg:pt-24">
+    <section className="relative pt-28 pb-24 lg:pt-32">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
