@@ -56,7 +56,7 @@ export default function Pricing() {
             Simple, <span className="italic font-serif font-bold text-[#000d2a]">sin</span> permanencia
           </h2>
           <p className="mt-5 text-base text-slate-500 leading-relaxed">
-            Un solo plan, sin contratos anuales ni letra chica. Los primeros 3 meses a precio de entrada — después tú decides si sigues.
+            Precio especial para los primeros usuarios del acceso anticipado. Sin contratos anuales, cancelas cuando quieras.
           </p>
         </motion.div>
 

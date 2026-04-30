@@ -53,13 +53,13 @@ export default function CtaWaitlist() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 mb-5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#2dd4ff]" />
-            <span className="text-[11px] font-semibold tracking-[0.18em] text-[#2dd4ff] font-mono">EMPEZAR</span>
+            <span className="text-[11px] font-semibold tracking-[0.18em] text-[#2dd4ff] font-mono">ACCESO ANTICIPADO</span>
           </span>
           <h2 className="text-5xl sm:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-            Da el <span className="italic font-serif font-bold text-[#2dd4ff]">siguiente</span> paso
+            Sé de los <span className="italic font-serif font-bold text-[#2dd4ff]">primeros</span>
           </h2>
           <p className="mt-5 text-base text-slate-400 leading-relaxed">
-            Agenda una demo de 20 minutos. Te mostramos cómo configurar tu primera sede en tiempo real — sin compromiso.
+            Reserva tu lugar y te avisamos cuando lancemos. Los primeros usuarios entran con precio especial y onboarding 1-a-1.
           </p>
         </motion.div>
 

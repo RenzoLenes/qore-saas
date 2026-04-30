@@ -46,7 +46,7 @@ export default function WaitlistForm() {
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2dd4ff]">
             <Check className="h-4 w-4 text-[#000d2a]" strokeWidth={3} />
           </span>
-          <span className="text-sm font-semibold text-[#000d2a]">Listo — te escribimos en &lt; 24 h</span>
+          <span className="text-sm font-semibold text-[#000d2a]">Listo — te avisamos cuando lancemos</span>
         </div>
       </div>
     );
@@ -78,7 +78,7 @@ export default function WaitlistForm() {
             boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.3)',
           }}
         >
-          {status === 'submitting' ? 'Enviando...' : 'Agendar demo'}
+          {status === 'submitting' ? 'Enviando...' : 'Reservar mi lugar'}
           {status !== 'submitting' && <ArrowRight className="h-3.5 w-3.5" />}
         </button>
       </form>

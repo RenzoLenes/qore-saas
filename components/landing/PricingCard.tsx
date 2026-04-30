@@ -4,35 +4,41 @@ import { PLAN_FEATURES, ENTERPRISE_FEATURES } from '@/lib/landing-content';
 export function PlanCard() {
   return (
     <article
-      className="h-full flex flex-col rounded-3xl bg-[#000d2a] border-2 border-[#2dd4ff] p-9 text-white"
+      className="h-full flex flex-col rounded-3xl bg-[#000d2a] border-2 border-[#2dd4ff] p-6 sm:p-9 text-white"
       style={{ boxShadow: '0 8px 32px rgba(45,212,255,0.2), 0 20px 48px rgba(0,13,42,0.16)' }}
     >
-      <div className="flex items-start justify-between mb-6">
-        <div>
+      <div className="flex items-start justify-between gap-3 mb-6">
+        <div className="min-w-0">
+          <p className="text-[10px] font-mono font-semibold tracking-[0.18em] text-[#2dd4ff] mb-2">PRECIO DE LANZAMIENTO</p>
           <h3 className="text-lg font-bold mb-1">Plan QORE</h3>
-          <p className="text-xs text-slate-400">Todo el producto, una sola suscripción por sede</p>
+          <p className="text-xs text-slate-400">Para los primeros usuarios del acceso anticipado</p>
         </div>
-        <span className="inline-flex items-center rounded-full bg-[#2dd4ff] px-2.5 py-1">
+        <span className="inline-flex items-center rounded-full bg-[#2dd4ff] px-2.5 py-1 flex-shrink-0">
           <span className="text-[10px] font-bold tracking-[0.15em] text-[#000d2a] font-mono">3 MESES</span>
         </span>
       </div>
 
-      <div className="flex items-end gap-1.5 mb-2">
-        <span className="text-[56px] font-extrabold tracking-tight leading-none">S/ 39.90</span>
-        <span className="text-sm font-medium text-slate-400 pb-2">/mes · primeros 3 meses</span>
+      <div className="mb-2">
+        <div className="flex items-baseline gap-3 flex-wrap">
+          <span className="text-[44px] sm:text-[56px] font-extrabold tracking-tight leading-none whitespace-nowrap">
+            S/&nbsp;39.90
+          </span>
+          <span className="text-xs font-mono text-slate-500 line-through whitespace-nowrap">S/&nbsp;69</span>
+        </div>
+        <p className="mt-1.5 text-sm font-medium text-slate-400">/mes · primeros 3 meses</p>
       </div>
-      <div className="flex items-center gap-2 mb-6">
-        <span className="text-xs font-mono text-slate-500 line-through">S/ 69</span>
-        <span className="text-[11px] font-mono font-semibold text-[#2dd4ff]">Luego S/ 69 x sede · sin contrato anual</span>
-      </div>
+
+      <p className="mb-6 text-[11px] font-mono font-semibold text-[#2dd4ff]">
+        Luego S/&nbsp;69 x sede · sin contrato anual
+      </p>
 
       <div className="h-px bg-white/10 mb-6" />
 
       <ul className="flex flex-col gap-3 mb-7 flex-1">
         {PLAN_FEATURES.map((feat) => (
-          <li key={feat} className="flex items-center gap-2.5 text-sm text-slate-300">
-            <Check className="h-4 w-4 text-[#2dd4ff] flex-shrink-0" />
-            {feat}
+          <li key={feat} className="flex items-start gap-2.5 text-sm text-slate-300">
+            <Check className="h-4 w-4 mt-0.5 text-[#2dd4ff] flex-shrink-0" />
+            <span>{feat}</span>
           </li>
         ))}
       </ul>
@@ -54,14 +60,14 @@ export function PlanCard() {
 
 export function EnterpriseCard() {
   return (
-    <article className="h-full flex flex-col rounded-3xl bg-white border border-slate-200 p-9 shadow-[0_1px_2px_rgba(0,0,0,0.04),_0_12px_32px_rgba(0,0,0,0.08)]">
+    <article className="h-full flex flex-col rounded-3xl bg-white border border-slate-200 p-6 sm:p-9 shadow-[0_1px_2px_rgba(0,0,0,0.04),_0_12px_32px_rgba(0,0,0,0.08)]">
       <div className="mb-6">
         <h3 className="text-lg font-bold text-slate-900 mb-1">Empresa</h3>
         <p className="text-xs text-slate-500">Para operaciones con 200+ colaboradores</p>
       </div>
 
       <div className="mb-2">
-        <span className="text-[52px] italic font-serif text-slate-900 leading-none">Hablemos</span>
+        <span className="text-[44px] sm:text-[52px] italic font-serif text-slate-900 leading-none">Hablemos</span>
       </div>
       <p className="text-[13px] text-slate-500 mb-6">Precio custom según sedes y volumen</p>
 
@@ -71,10 +77,10 @@ export function EnterpriseCard() {
         {ENTERPRISE_FEATURES.map((feat) => (
           <li
             key={feat.text}
-            className={`flex items-center gap-2.5 text-sm ${feat.strong ? 'font-semibold text-slate-700' : 'text-slate-600'}`}
+            className={`flex items-start gap-2.5 text-sm ${feat.strong ? 'font-semibold text-slate-700' : 'text-slate-600'}`}
           >
-            <Check className="h-4 w-4 text-[#0891b2] flex-shrink-0" />
-            {feat.text}
+            <Check className="h-4 w-4 mt-0.5 text-[#0891b2] flex-shrink-0" />
+            <span>{feat.text}</span>
           </li>
         ))}
       </ul>

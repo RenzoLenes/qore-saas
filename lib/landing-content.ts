@@ -139,12 +139,16 @@ export const ENTERPRISE_FEATURES = [
 
 export const FAQS = [
   {
-    q: '¿Qué necesitamos para empezar a usar QORE?',
-    a: 'Solo un smartphone por colaborador. No necesitas comprar hardware, instalar apps ni configurar servidores. Creas tus sedes desde el panel, defines el radio GPS, y QORE genera el QR listo para imprimir.',
+    q: '¿Cuándo estará disponible QORE?',
+    a: 'Estamos en validación con un grupo cerrado de empresas. Si te registras al acceso anticipado, eres de los primeros en enterarte cuando abramos cupos y tendrás precio especial de lanzamiento + onboarding 1-a-1 incluido.',
   },
   {
-    q: '¿Cuánto toma la implementación?',
-    a: '30 minutos para una sede con colaboradores ya registrados. Te acompañamos 1-a-1 en la configuración inicial — incluido en el precio.',
+    q: '¿Qué necesitaré para empezar a usar QORE?',
+    a: 'Cuando lancemos, solo necesitarás un smartphone por colaborador. No tendrás que comprar hardware, instalar apps ni configurar servidores. Creas tus sedes desde el panel, defines el radio GPS, y QORE genera el QR listo para imprimir.',
+  },
+  {
+    q: '¿Cuánto tomará la implementación?',
+    a: 'Estimamos 30 minutos para configurar tu primera sede. Los primeros usuarios del acceso anticipado reciben acompañamiento 1-a-1 en la configuración inicial, incluido en el precio.',
   },
   {
     q: '¿Qué pasa si un colaborador no tiene smartphone?',
@@ -165,8 +169,8 @@ export const FAQS = [
 ];
 
 export const CTA_TRUST = [
-  { icon: CircleCheck, text: 'Demo gratuita' },
-  { icon: Clock, text: 'Respuesta < 24 h' },
+  { icon: CircleCheck, text: 'Acceso anticipado' },
+  { icon: Clock, text: 'Te avisamos al lanzar' },
   { icon: ShieldCheck, text: 'Sin compromiso' },
 ];
 

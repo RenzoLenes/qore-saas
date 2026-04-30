@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QORE - Sistema de Asistencia Inteligente",
-  description: "Moderniza el control de personal con validación geolocalizada en tiempo real. Sistema de asistencia con QR y GPS para empresas líderes.",
+  title: "QORE — Cada asistencia, validada en segundos",
+  description: "QR rotativo + GPS para validar cada registro en tiempo real. Sin huelleros, sin Excel, sin dudas. Únete al acceso anticipado.",
 };
 
 export default function RootLayout({

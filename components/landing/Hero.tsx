@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import {
-  QrCode,
   Play,
   LayoutDashboard,
   MapPin,
@@ -124,28 +123,29 @@ export default function Hero() {
             variants={shouldReduce ? textItemReduced : textItem}
             className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 shadow-sm mb-8"
           >
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2dd4ff]">
-              <QrCode className="h-3 w-3" /> QR + GPS
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inset-0 rounded-full bg-[#2dd4ff] animate-ping opacity-75" />
+              <span className="relative h-1.5 w-1.5 rounded-full bg-[#2dd4ff]" />
             </span>
+            <span className="text-[11px] font-semibold text-[#2dd4ff] tracking-[0.15em] font-mono">ACCESO ANTICIPADO</span>
             <span className="text-slate-300">·</span>
-            <span className="text-[11px] text-slate-500">Sin hardware adicional</span>
+            <span className="text-[11px] text-slate-500">Plazas limitadas</span>
           </motion.div>
 
           <motion.h1
             variants={shouldReduce ? textItemReduced : textItem}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-slate-900"
           >
-            Control de Asistencia
+            Cada asistencia,
             <br />
-            Inteligente para{' '}
-            <span className="italic font-serif font-bold text-[#000d2a]">tu Empresa</span>
+            <span className="italic font-serif font-bold text-[#000d2a]">validada</span> en segundos
           </motion.h1>
 
           <motion.p
             variants={shouldReduce ? textItemReduced : textItem}
             className="mt-6 text-base sm:text-lg text-slate-500 leading-relaxed max-w-xl"
           >
-            Gestiona asistencia con QR y GPS en tiempo real. Elimina el fraude, automatiza reportes y simplifica la nómina — sin complicaciones.
+            QR rotativo + GPS para validar cada registro en tiempo real. Sin huelleros, sin Excel, sin dudas.
           </motion.p>
 
           <motion.div
@@ -160,8 +160,8 @@ export default function Hero() {
                 boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.3), 0 4px 12px rgba(0,13,42,0.3)',
               }}
             >
-              Solicitar Demo
-              <span className="ml-2 text-white/50">— es gratis</span>
+              Reservar mi lugar
+              <span className="ml-2 text-white/50">— gratis</span>
             </a>
             <a
               href="#features"

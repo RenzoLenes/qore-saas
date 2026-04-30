@@ -95,7 +95,7 @@ export default function Nav() {
               boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.3), 0 2px 8px rgba(0,13,42,0.25)',
             }}
           >
-            Solicitar Demo
+            Reservar mi lugar
           </a>
 
           <button
@@ -168,7 +168,7 @@ export default function Nav() {
                       boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.3), 0 2px 8px rgba(0,13,42,0.25)',
                     }}
                   >
-                    Solicitar Demo
+                    Reservar mi lugar
                   </a>
                 </motion.div>
               </div>
